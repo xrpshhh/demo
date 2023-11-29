@@ -1,9 +1,46 @@
 {
-  "name": "demo-repo",
-  "version": "0.2.0",
-  "description": "A sample package.json",
-  "dependencies": {
-    "@primer/css": "17.0.1"
+  "name": "xrpshhh",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "pages:build": "npx @cloudflare/next-on-pages",
+    "pages:deploy": "npm run pages:build && wrangler pages deploy .vercel/output/static",
+    "pages:watch": "npx @cloudflare/next-on-pages --watch",
+    "pages:dev": "npx wrangler pages dev .vercel/output/static --compatibility-date=2023-10-30 --compatibility-flag=nodejs_compat"
   },
-  "license": "MIT"
+  "dependencies": {
+    "@types/node": "20.9.0",
+    "@types/react": "18.2.37",
+    "@types/react-dom": "18.2.15",
+    "autoprefixer": "10.4.16",
+    "crypto-js": "^4.2.0",
+    "daisyui": "^4.0.3",
+    "eslint": "8.53.0",
+    "eslint-config-next": "14.0.2",
+    "next": "14.0.2",
+    "next-auth": "^4.24.5",
+    "next-i18next": "^15.0.0",
+    "next-translate": "^2.6.2",
+    "postcss": "8.4.31",
+    "qrcode": "^1.5.3",
+    "react": "18.2.0",
+    "react-avatar-editor": "^13.0.0",
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.48.2",
+    "tailwindcss": "3.3.5",
+    "toml": "^3.0.0",
+    "typescript": "5.2.2",
+    "xrpl": "^2.13.0",
+    "xumm": "^1.6.4"
+  },
+  "devDependencies": {
+    "@cloudflare/next-on-pages": "^1.7.3",
+    "@types/react-avatar-editor": "^13.0.2",
+    "eslint-plugin-next-on-pages": "^1.7.3",
+    "vercel": "^32.3.0"
+  }
 }
