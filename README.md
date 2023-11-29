@@ -5,7 +5,7 @@
 
 ```bash
 
-gh repo clone boborder/xApp
+gh repo clone xrpshhh/demo-repository
 cd xApp
 
 ```
