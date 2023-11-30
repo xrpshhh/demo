@@ -34,6 +34,26 @@ XUMMAPI={Your API Key}
 XUMMSECRET={Your Secret}
 
 ```
+TESTNET用のアドレスを使う場合　
+
+https://xrpl.org/xrp-testnet-faucet.html から作成
+
+Your Testnet Credentials
+
+- Address:
+rapQqDRvY7WxGZLk1KnRRXVycFZD4VW2yw
+
+- Secret:
+sEdThei83qwiNKtcmM2gquBoz7XZ1Gp
+
+- Balance:
+10,000 XRP
+
+- Sequence Number:
+43321922
+
+
+```
 
 ローカルで実行する
 デフォルトは http://localhost:3000
