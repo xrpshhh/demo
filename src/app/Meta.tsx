@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 
 export const Meta: Metadata = {
-    title: 'XRP Star',
-    description: 'Star',
+    title: 'XRP Shhh',
+    description: 'Shhh',
     icons: '/favicon.ico'
 }

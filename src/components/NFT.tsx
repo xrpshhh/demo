@@ -26,14 +26,13 @@ export const NFT = () => {
     const { userInfo } = useUser();
 
     const [info, setInfo] = useState<AccountNFTResponse>();
-    const [client] = useState(new Client('wss://xrpl.ws'));
     const [fetchedData, setFetchedData] = useState<any>(null);
 
     // XRPLからNFT情報を取得
     useEffect(() => {
         if (userInfo) {
             const setup = async () => {
-                // const client = new Client('wss://xrpl.ws')
+                const client = new Client('wss://xrpl.ws')
                 await client.connect();
                 const response = await client.request({
                     command: "account_nfts",

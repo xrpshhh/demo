@@ -12,6 +12,7 @@ export const Nav = () => {
     return (
         <header className="drawer z-10 text-accent bg-base-100 bg-opacity-80 block absolute shadow-xl border-b-neutral">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+            {/* サイドーバー */}
             <nav className="drawer-side">
                 <label htmlFor="my-drawer-2" className="drawer-overlay "></label>
                 <ul className="menu p-2 w-auto max-w-xs text-center text-lg h-full bg-base-100">
@@ -50,12 +51,13 @@ export const Nav = () => {
                             <Imagine src={`${ipfs}/logo.png`} width={48} height={48} alt="logo" />
                         </Link>
                         <h1 className="text-accent font-bold text-xl">
-                            XRP💫STAR
+                            XRP☝Shhh
                         </h1>
                     </div>
                     {/* <div className="navbar-center md:hidden">
                         </div> */}
                     <div className="navbar-end">
+                        {/* テーマアイコンとサイインイン */}
                         <Theme />
                         <Auth />
                     </div>

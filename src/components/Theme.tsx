@@ -19,7 +19,7 @@ export const Theme = () => {
     // theme が変わる度に現在のテーマをlocalStorageに保存
     useEffect(() => {
         localStorage.setItem("theme", theme);
-        document.documentElement.setAttribute('data-theme', theme);
+        document.querySelector("html")?.setAttribute("data-theme", theme);
     }, [theme]);
 
     return (

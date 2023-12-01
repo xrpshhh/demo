@@ -14,7 +14,8 @@ export async function POST(req: NextRequest) {
   const txData: txData = await req.json();;
 
   // XRP Ledger Test Net に接続
-  const client = new Client("wss://testnet.xrpl-labs.com");
+  // const client = new Client("wss://testnet.xrpl-labs.com");
+  const client = new Client("wss://xahau-test.net");
   await client.connect();
 
   // seedで自身のアカウントを取得

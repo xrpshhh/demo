@@ -7,8 +7,8 @@ export async function POST(req: NextRequest) {
   const payload = await req.json();
   const seed = payload.seed;
 
-  // XRP Ledger Test Net に接続
-  const client = new Client("wss://testnet.xrpl-labs.com");
+  // const client = new Client("wss://testnet.xrpl-labs.com");
+  const client = new Client("wss://xahau-test.net");
   await client.connect();
 
   // seedで自身のアカウントを取得
@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
   // 残高を取得
   const balance = await client.getXrpBalance(wallet.address);
 
-  // 表示するウォレットのデータを定義
+  // 表示するウォレットのリスト
   const currentWallet = {
     address: wallet.address,
     seed: seed,
@@ -31,9 +31,7 @@ export async function POST(req: NextRequest) {
     account: wallet.address,
   });
 
-  // XRP Ledger Test Net との接続を解除
   await client.disconnect();
-
   // レスポンスでデータを返す
   return NextResponse.json({currentWallet, info});
 }

@@ -3,8 +3,8 @@ import React, { useState, useRef } from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import { Imagine } from "@/components/Imagine"
 import { useUser } from "@/components/UserProvider"
-// import { Xaman } from "@/components/Xaman"
-// import { NFT } from "@/components/NFT"
+import { Xaman } from "@/components/Xaman"
+import { NFT } from "@/components/NFT"
 
 type UserProfile = {
     email?: string;
@@ -188,7 +188,7 @@ export const EditProfile = () => {
                         </label>
                     </div>
 
-                    <Imagine priority={false} src={originalAvatar || `${ipfs}/avatar.png`} alt="avatar" width={150} height={150} className="m-4 mx-auto avatar rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"
+                    <Imagine priority={false} src={originalAvatar || `${ipfs}/avatar.png`} alt="avatar" width={150} height={150} className="m-4 mx-auto avatar rounded-full ring ring-primary"
                         onClick={() => { (window as any).my_modal_2.showModal(); updateCanvas(); }} />
                     {/* <Imagine priority={true} src={originalAvatar || `${ipfs}/avatar.png`} alt="avatar" fill={true} className="m-4 p-4 w-36 h-36 mx-auto avatar rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"
                         onClick={() => { (window as any).my_modal_2.showModal(); updateCanvas(); }} /> */}
@@ -223,8 +223,8 @@ export const EditProfile = () => {
                         Edit Profile
                     </button>
                 </div>
-                {/* <NFT /> */}
-                {/* <Xaman /> */}
+                <NFT />
+                <Xaman />
                 </>
             )}
             {/* アバター編集モーダル */}

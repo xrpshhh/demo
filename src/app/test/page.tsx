@@ -13,9 +13,14 @@ export default function Tests() {
     const [bobBalance, setBobBalance] = useState<number>(0);
     const [bobAmount, setBobAmount] = useState<string>('321');
 
+    const [catWallet, setCatWallet] = useState<Wallet | null>(null);
+    const [catBalance, setCatBalance] = useState<number>(0);
+    const [catAmount, setCatAmount] = useState<string>('589');
+
     const [status, setStatus] = useState<string>('Wallet funding...');
     const [info, setInfo] = useState();
-    const [client] = useState(new Client('wss://testnet.xrpl-labs.com'));
+    const client = new Client('wss://testnet.xrpl-labs.com');
+    // const client = new Client('wss://xahau-test.net');
 
     useEffect(() => {
         setup();
@@ -25,10 +30,13 @@ export default function Tests() {
         await client.connect();
         const alice = await client.fundWallet();
         const bob = await client.fundWallet();
+        const cat = await client.fundWallet();
         setAliceWallet(alice.wallet);
         setAliceBalance(alice.balance);
         setBobWallet(bob.wallet);
         setBobBalance(bob.balance);
+        setCatWallet(cat.wallet);
+        setCatBalance(cat.balance);
         setStatus('Wallets funded.');
     };
 
@@ -56,9 +64,9 @@ export default function Tests() {
                 account: fromWallet?.address
             })
             setInfo(account_info.result.account_data.PreviousTxnID);
-            // await client.disconnect();
         } else {
             setStatus('Transaction failed.');
+            // await client.disconnect();
         }
     };
     return (
@@ -103,7 +111,7 @@ export default function Tests() {
                 )}
 
                 <Test />
-                
+
             </div>
         </div>
     );

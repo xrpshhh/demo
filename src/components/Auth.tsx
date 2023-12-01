@@ -57,7 +57,6 @@ export const Auth = () => {
                                 <span className="badge">Test</span>
                             </a>
                         </li>
-
                         <li>
                             <a onMouseDown={logout}>
                                 <button className="btn btn-xs hover:text-primary" >Logout</button>

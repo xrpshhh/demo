@@ -18,7 +18,7 @@ type TransactionStatus = {
 export const Payload = () => {
   // Get user information and Xumm instance
   const { userInfo, xumm } = useUser();
-  
+
   // Define state variables
   const [qr, setQr] = useState<string | undefined>(undefined);
   const [tx, setTx] = useState<TransactionStatus | undefined>(undefined);
@@ -43,7 +43,11 @@ export const Payload = () => {
     setTx(undefined);
 
     const payload = await xumm.payload?.create({
-      TransactionType: 'SignIn',
+      // TransactionType: 'SignIn', //擬似トランザクション
+      TransactionType: 'Payment',
+      Destination: 'r9BUM9z14j7bLFzQHRfurWNdNKYSABdGtE',
+      Amount: String(123_456),
+      Fee: '123'
     });
     setQr(payload?.refs.qr_png);
 
@@ -80,7 +84,7 @@ export const Payload = () => {
       TransactionType: 'AccountSet',
       Domain: domainHex,
       EmailHash: emailhash,
-      Memos: ["It's My ID"],
+      Memos: ["It's My Infomation"],
       Fee: '589',
     });
     setQr(payload?.refs.qr_png);
