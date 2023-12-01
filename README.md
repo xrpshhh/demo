@@ -6,7 +6,7 @@
 ```bash
 
 gh repo clone xrpshhh/demo-repository
-cd xApp
+cd demo-repository
 
 ```
 
