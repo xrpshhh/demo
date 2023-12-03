@@ -3,8 +3,8 @@ import React, { useState, useRef } from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import { Imagine } from "@/components/Imagine"
 import { useUser } from "@/components/UserProvider"
-import { Xaman } from "@/components/Xaman"
-import { NFT } from "@/components/NFT"
+// import { Xaman } from "@/components/Xaman"
+// import { NFT } from "@/components/NFT"
 
 type UserProfile = {
     // email?: string;
@@ -204,7 +204,7 @@ export const EditProfile = () => {
                         }}>Copy
                         </button>
                     </div>
-                                                <Xaman />
+                                                {/* <Xaman /> */}
                     <h3 id="name" className="text-lg">
                         {userInfo.name}
                     </h3>
@@ -224,7 +224,7 @@ export const EditProfile = () => {
                         Edit Profile
                     </button>
                 </div>
-                <NFT />
+                {/* <NFT /> */}
                 </>
             )}
             {/* アバター編集モーダル */}

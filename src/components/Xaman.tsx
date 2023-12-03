@@ -10,7 +10,6 @@ export const Xaman = () => {
   const { xumm, userInfo } = useUser();
   (async () => {
     // console.log(await xumm.helpers?.getCuratedAssets());
-    // const client = new Client('wss://xrplcluster.com')
     const client = new Client('wss://xahau-test.net')
     await client.connect();
     const info: any = await client.request({

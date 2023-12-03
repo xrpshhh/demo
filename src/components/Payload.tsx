@@ -79,7 +79,7 @@ export const Payload = () => {
       const hash = crypto.createHash('md5').update(str, 'binary').digest('hex');
       return hash.toUpperCase();
     };
-    const emailhash = md5hex(email as string);
+    const emailhash = md5hex(email as string || "");
 
     const payload = await xumm.payload?.create({
       TransactionType: 'AccountSet',
@@ -87,7 +87,7 @@ export const Payload = () => {
       EmailHash: emailhash,
       Memos: ["It's My Infomation"],
       Fee: '1000000',
-      NetworkID: '21338',
+      // NetworkID: '21338',
     });
     setQr(payload?.refs.qr_png);
 

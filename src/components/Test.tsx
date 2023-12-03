@@ -40,7 +40,7 @@ export const Test = () => {
                         <form
                             action={async () => {
                                 const data = await createAccount()
-                                setWallet(data.newWallet);
+                                setWallet(data.newWallet as Wallet);
                                 setInfo(JSON.stringify(data.info, null, 2))
                             }}
                         >
@@ -60,7 +60,7 @@ export const Test = () => {
                         <form
                             action={async (formData) => {
                                 const data = await getWallet(formData)
-                                setWallet(data.currentWallet);
+                                setWallet(data.currentWallet as Wallet);
                                 setInfo(JSON.stringify(data.info, null, 2))
                             }}
                             className="mt-4">
@@ -109,7 +109,7 @@ export const Test = () => {
                             <form action={async (formData) => {
                                 const data = await transfer(formData,);
                                 setWallet({ ...Wallet, balance: data.balance });
-                                setStats(data.stats);
+                                setStats(data.stats as string);
                                 setRaw(JSON.stringify(data.tx, null, 2));
                             }}>
                                 <div>

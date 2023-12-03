@@ -1,4 +1,4 @@
-# xApp
+# XRP Shhh
 ## XRPL DeFi 分散型無尽講
 
 ダウンロードしてディレクトリに移動
