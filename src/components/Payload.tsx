@@ -47,7 +47,8 @@ export const Payload = () => {
       TransactionType: 'Payment',
       Destination: 'r9BUM9z14j7bLFzQHRfurWNdNKYSABdGtE',
       Amount: String(123_456),
-      Fee: '123'
+      Fee: '123',
+      // NetworkID: '21338',
     });
     setQr(payload?.refs.qr_png);
 
@@ -85,7 +86,8 @@ export const Payload = () => {
       Domain: domainHex,
       EmailHash: emailhash,
       Memos: ["It's My Infomation"],
-      Fee: '589',
+      Fee: '1000000',
+      NetworkID: '21338',
     });
     setQr(payload?.refs.qr_png);
 

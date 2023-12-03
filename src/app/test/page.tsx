@@ -19,7 +19,7 @@ export default function Tests() {
 
     const [status, setStatus] = useState<string>('Wallet funding...');
     const [info, setInfo] = useState();
-    const client = new Client('wss://testnet.xrpl-labs.com');
+    const [client] =useState(new Client('wss://testnet.xrpl-labs.com'));
     // const client = new Client('wss://xahau-test.net');
 
     useEffect(() => {

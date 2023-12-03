@@ -7,12 +7,12 @@ import { Xaman } from "@/components/Xaman"
 import { NFT } from "@/components/NFT"
 
 type UserProfile = {
-    email?: string;
+    // email?: string;
     nickname?: string;
-    paystring?: string;
-    url?: string;
-    did?: string;
-    tel?: string;
+    // paystring?: string;
+    // url?: string;
+    // did?: string;
+    // tel?: string;
     bio?: string;
 };
 
@@ -21,12 +21,12 @@ export const EditProfile = () => {
 
     const profile = {
         nickname: "",
-        email: "",
+        // email: "",
         bio: "",
-        paystring: "",
-        url: "",
-        did: "",
-        tel: "",
+        // paystring: "",
+        // url: "",
+        // did: "",
+        // tel: "",
     }
 
     const [formData, setFormData] = useState<UserProfile>(profile);
@@ -114,7 +114,7 @@ export const EditProfile = () => {
                             onChange={handleInputChange}
                         />
                     </div>
-                    <div className="form-control">
+                    {/* <div className="form-control">
                         <label className="label">
                             <span className="label-text">Email</span>
                         </label>
@@ -139,21 +139,21 @@ export const EditProfile = () => {
                             value={formData.url}
                             onChange={handleInputChange}
                         />
-                    </div>
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Tel</span>
-                        </label>
-                        <input
-                            type="tel"
-                            className="input input-bordered"
-                            name="tel"
-                            placeholder='+1 (123) 456-7890'
-                            value={formData.tel}
-                            onChange={handleInputChange}
-                            pattern="^\+?(\d[\d-. ]+)?(\([\d-. ]+\))?[\d-. ]+\d$"
-                        />
-                    </div>
+                    </div> */}
+                    {/* // <div className="form-control">
+                    //     <label className="label">
+                    //         <span className="label-text">Tel</span>
+                    //     </label>
+                    //     <input
+                    //         type="tel"
+                    //         className="input input-bordered"
+                    //         name="tel"
+                    //         placeholder='+1 (123) 456-7890'
+                    //         value={formData.tel}
+                    //         onChange={handleInputChange}
+                    //         pattern="^\+?(\d[\d-. ]+)?(\([\d-. ]+\))?[\d-. ]+\d$"
+                    //     />
+                    // </div> */}
                     <div className="form-control">
                         <label className="label">
                             <span className="label-text">Bio</span>
@@ -204,6 +204,7 @@ export const EditProfile = () => {
                         }}>Copy
                         </button>
                     </div>
+                                                <Xaman />
                     <h3 id="name" className="text-lg">
                         {userInfo.name}
                     </h3>
@@ -214,17 +215,16 @@ export const EditProfile = () => {
                     <p>{userInfo.token}</p>
                     <br/>
                     <p>{formData.nickname}</p>
-                    <a href={formData.url} className="block underline">{formatUrlForDisplay(formData.url)}</a>
-                    <p>{formData.email}</p>
-                    <p>{formData.tel}</p>
-                    <p className='truncate'>{formData.did}</p>
-                    <p>{formData.bio}</p>
+                    {/* <a href={formData.url} className="block underline">{formatUrlForDisplay(formData.url)}</a> */}
+                    {/* <p>{formData.email}</p> */}
+                    {/* <p>{formData.tel}</p> */}
+                    {/* <p className='truncate'>{formData.did}</p> */}
+                    {/* <p>{formData.bio}</p> */}
                     <button className="btn btn-secondary mt-4 mx-auto block normal-case" onClick={() => setIsEditing(true)}>
                         Edit Profile
                     </button>
                 </div>
                 <NFT />
-                <Xaman />
                 </>
             )}
             {/* アバター編集モーダル */}
@@ -234,7 +234,7 @@ export const EditProfile = () => {
                     <h2 className="font-bold text-lg">Edit Avatar</h2>
                     <AvatarEditor
                         ref={editorRef}
-                        image={originalAvatar || `${ipfs}/youtube.png`}
+                        image={originalAvatar || `${ipfs}/avatar.png`}
                         key={originalAvatar}
                         width={250}
                         height={250}

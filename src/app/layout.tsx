@@ -13,7 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={fonts.className}>
         <UserProvider>
-            {children}
+          {children}
         </UserProvider>
       </body>
     </html>

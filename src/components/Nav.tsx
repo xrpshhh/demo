@@ -25,7 +25,7 @@ export const Nav = () => {
                         </form>
                     </li>
                     <li><Link href="/" className="[transition:0.3s] text-lg hover:text-primary">Home</Link></li>
-                    <li><Link href="/" className="[transition:0.3s] text-lg hover:text-primary">About</Link></li>
+                    {/* <li><Link href="/" className="[transition:0.3s] text-lg hover:text-primary">About</Link></li> */}
                     <li><Link href="/" className="[transition:0.3s] text-lg hover:text-primary">Docs</Link></li>
                     <li><Link href="/" className="[transition:0.3s] text-lg hover:text-primary">Contact</Link></li>
                     <li><Link href="https://youtube.com/" target="_blank" rel="noopener noreferrer">
@@ -51,7 +51,7 @@ export const Nav = () => {
                             <Imagine src={`${ipfs}/logo.png`} width={48} height={48} alt="logo" />
                         </Link>
                         <h1 className="text-accent font-bold text-xl">
-                            XRP☝Shhh
+                            XRP Shhh
                         </h1>
                     </div>
                     {/* <div className="navbar-center md:hidden">
