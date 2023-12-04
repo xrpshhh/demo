@@ -6,9 +6,9 @@ import { Auth } from "./Auth"
 import { Theme } from './Theme'
 
 export const Nav = () => {
-    // const ipfs = '/ipfs'
+    const ipfs = '/ipfs'
     // const ipfs = "https://ipfs.io/ipfs/bafybeidwkwodllbzo35ggin25uqvl2aoho6qlslmlvdey73ufy6dcaify4";
-    const ipfs = "https://cloudflare-ipfs.com/ipfs/bafybeidwkwodllbzo35ggin25uqvl2aoho6qlslmlvdey73ufy6dcaify4";
+    // const ipfs = "https://cloudflare-ipfs.com/ipfs/bafybeidwkwodllbzo35ggin25uqvl2aoho6qlslmlvdey73ufy6dcaify4";
     return (
         <header className="drawer z-10 text-accent bg-base-100 bg-opacity-80 block absolute shadow-xl border-b-neutral">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />

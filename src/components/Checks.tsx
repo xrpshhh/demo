@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useUser } from "@/components/UserProvider";
 import { Imagine } from "./Imagine";
-import { dropsToXrp } from "xrpl";
+import { Client } from 'xrpl';
 
 // Define the type for the transaction status
 type TransactionStatus = {
@@ -15,17 +15,15 @@ type TransactionStatus = {
 };
 
 // Payload component
-export const Payload = () => {
-  // Get user information and Xumm instance
+export const Checks = () => {
   const { userInfo, xumm } = useUser();
 
   // Define state variables
   const [qr, setQr] = useState<string | undefined>(undefined);
   const [tx, setTx] = useState<TransactionStatus | undefined>(undefined);
-  const [price, setPrice] = useState<{ XRP?: string; XAH?: string }>();
-  // Handle the payload status and polling
+
   const handlePayloadStatus = async (payload: any) => {
-    const checkPayloadStatus = setInterval(async () => {
+    const checkPayloadStatus: any = setInterval(async () => {
       const status = await xumm.payload?.get(payload?.uuid as string);
       if (status?.meta.resolved && !status?.meta.cancelled) {
         clearInterval(checkPayloadStatus);
@@ -38,23 +36,14 @@ export const Payload = () => {
     }, 20000);
   };
 
-  // Handle the payment process
-  const handlePayment = async (event: React.FormEvent<HTMLFormElement>) => {
+  const checkcreate = async () => {
     setTx(undefined);
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const amount = formData?.get("amount");
-    // const value = dropsToXrp(amount)
-
     const payload = await xumm.payload?.create({
-      TransactionType: 'Payment',
-      Destination: 'r589XuNWLyX4QP5JQtbP63QpP1ybXGRwZ',
-      Amount: String(amount) || String(123_456),
-      // Amount: amount || String(123_456),
-      // HooksPrameters: [{}]
+      TransactionType: 'CheckCreate',
+      Destination: 'r9BUM9z14j7bLFzQHRfurWNdNKYSABdGtE',
+      SendMax: String(123_456),
     });
     setQr(payload?.refs.qr_png);
-
     await xumm.xapp?.openSignRequest(payload);
 
     if (payload?.pushed) {
@@ -63,46 +52,48 @@ export const Payload = () => {
       alert('Payload not pushed, opening payload...');
       window.open(payload?.next.always);
     }
-
     handlePayloadStatus(payload);
   };
 
-  // Handle the sign action
-  const handleSign = async () => {
-    await xumm.authorize();
-  };
+  const checkcash = async () => {
+    setTx(undefined);
+    const client = new Client("wss://testnet.xrpl-labs.com")
+    await client.connect()
+    const info: any = await client.request({
+      command: "account_objects",
+      account: userInfo?.account,
+      type: "check"
+    });
+    const checklist = info.result.account_objects[0]
 
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      try {
-        const price = await xumm.helpers?.getRates('JPY');
-        setPrice(price as any);
-      } catch (error) {
-        throw new Error()
-      }
-    }, 20000);
-    return () => clearInterval(interval);
-  }, []);
+    const payload = await xumm.payload?.create({
+      TransactionType: 'CheckCash',
+      Amount: checklist.SendMax,
+      CheckID: checklist.index,
+    });
+    setQr(payload?.refs.qr_png);
+    await xumm.xapp?.openSignRequest(payload);
+
+    if (payload?.pushed) {
+      alert('Payload `' + payload?.uuid + '` pushed to your phone.');
+    } else {
+      alert('Payload not pushed, opening payload...');
+      window.open(payload?.next.always);
+    }
+    handlePayloadStatus(payload);
+    await client.disconnect()
+  };
 
   return (
     <>
       {userInfo.account ? (
         <>
-          <p className="text-2xl text-accent">XRP: {JSON.stringify(price?.XRP)} JPY</p>
-          <p className="text-2xl text-accent">XAH: {JSON.stringify(price?.XAH)} JPY</p>
-          {/* Payment button */}
-          {/* Account set form */}
-          <form onSubmit={handlePayment} className="m-4 join join-vertical">
-            {/* Input fields */}
-            <input
-              type="number"
-              name="amount"
-              id="amount"
-              className="input input-bordered w-full join-item"
-            />
-            {/* Submit button */}
-            <button className="btn btn-neutral join-item text-2xl">Send</button>
-          </form>
+          <button onMouseDown={checkcreate} className="m-4 btn btn-neutral btn-lg text-2xl">
+            CheckCreate
+          </button>
+          <button onMouseDown={checkcash} className="m-4 btn btn-neutral btn-lg text-2xl">
+            CheckCash
+          </button>
           {/* Display QR code */}
           {qr && <Imagine src={qr} alt="QR" height={150} width={150} className="mx-auto m-4" />}
           {/* Display transaction details */}
@@ -127,12 +118,8 @@ export const Payload = () => {
             </div>
           )}
         </>
-      ) : (
-        // Sign button for users without an account
-        <button className="m-4 btn btn-primary btn-lg text-3xl" onMouseDown={handleSign}>
-          Connect
-        </button>
-      )}
-    </>
-  );
+      ):(<div></div>)
+    }
+  </>
+  )
 };

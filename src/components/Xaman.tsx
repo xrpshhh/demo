@@ -20,6 +20,7 @@ export const Xaman = () => {
     const accountData = JSON.stringify(await info.result.account_data, null, 2);
     setData(accountData)
     setBalance(balance);
+    await client.disconnect()
   })
   ()
 

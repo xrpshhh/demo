@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useUser } from "@/components/UserProvider";
 import { Imagine } from "./Imagine";
-import { dropsToXrp } from "xrpl";
 
 // Define the type for the transaction status
 type TransactionStatus = {
@@ -15,14 +14,13 @@ type TransactionStatus = {
 };
 
 // Payload component
-export const Payload = () => {
+export const Swap = () => {
   // Get user information and Xumm instance
   const { userInfo, xumm } = useUser();
 
   // Define state variables
   const [qr, setQr] = useState<string | undefined>(undefined);
   const [tx, setTx] = useState<TransactionStatus | undefined>(undefined);
-  const [price, setPrice] = useState<{ XRP?: string; XAH?: string }>();
   // Handle the payload status and polling
   const handlePayloadStatus = async (payload: any) => {
     const checkPayloadStatus = setInterval(async () => {
@@ -38,23 +36,26 @@ export const Payload = () => {
     }, 20000);
   };
 
-  // Handle the payment process
-  const handlePayment = async (event: React.FormEvent<HTMLFormElement>) => {
+  // Handle the account set transaction
+  const handleSwap = async (event: React.FormEvent<HTMLFormElement>) => {
     setTx(undefined);
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const amount = formData?.get("amount");
-    // const value = dropsToXrp(amount)
+    const currency = formData?.get("currency");
 
     const payload = await xumm.payload?.create({
       TransactionType: 'Payment',
-      Destination: 'r589XuNWLyX4QP5JQtbP63QpP1ybXGRwZ',
-      Amount: String(amount) || String(123_456),
-      // Amount: amount || String(123_456),
-      // HooksPrameters: [{}]
+      Destination: userInfo?.account,
+      Amount: {
+        currency: currency as string,
+        value: amount as string,
+        issuer: "rswh1fvyLqHizBS2awu1vs6QcmwTBd9qiv"
+      },
+      SendMax: '20000000'
+      // SendMax: amount
     });
     setQr(payload?.refs.qr_png);
-
     await xumm.xapp?.openSignRequest(payload);
 
     if (payload?.pushed) {
@@ -63,45 +64,31 @@ export const Payload = () => {
       alert('Payload not pushed, opening payload...');
       window.open(payload?.next.always);
     }
-
     handlePayloadStatus(payload);
   };
-
-  // Handle the sign action
-  const handleSign = async () => {
-    await xumm.authorize();
-  };
-
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      try {
-        const price = await xumm.helpers?.getRates('JPY');
-        setPrice(price as any);
-      } catch (error) {
-        throw new Error()
-      }
-    }, 20000);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <>
       {userInfo.account ? (
         <>
-          <p className="text-2xl text-accent">XRP: {JSON.stringify(price?.XRP)} JPY</p>
-          <p className="text-2xl text-accent">XAH: {JSON.stringify(price?.XAH)} JPY</p>
-          {/* Payment button */}
           {/* Account set form */}
-          <form onSubmit={handlePayment} className="m-4 join join-vertical">
+          <form onSubmit={handleSwap} className="m-4 join join-vertical">
             {/* Input fields */}
             <input
-              type="number"
+              type="text"
+              name="currency"
+              id="currency"
+              // value="xah"
+              className="input input-bordered w-full join-item"
+            />
+            <input
+              type="text"
               name="amount"
               id="amount"
               className="input input-bordered w-full join-item"
             />
             {/* Submit button */}
-            <button className="btn btn-neutral join-item text-2xl">Send</button>
+            <button className="btn btn-neutral join-item text-2xl">SWAP</button>
           </form>
           {/* Display QR code */}
           {qr && <Imagine src={qr} alt="QR" height={150} width={150} className="mx-auto m-4" />}
@@ -127,12 +114,7 @@ export const Payload = () => {
             </div>
           )}
         </>
-      ) : (
-        // Sign button for users without an account
-        <button className="m-4 btn btn-primary btn-lg text-3xl" onMouseDown={handleSign}>
-          Connect
-        </button>
-      )}
+      ):(<div></div>)}
     </>
   );
 };
