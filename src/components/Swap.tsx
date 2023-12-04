@@ -79,13 +79,14 @@ export const Swap = () => {
               type="text"
               name="currency"
               id="currency"
-              // value="xah"
+              placeholder="currncy"
               className="input input-bordered w-full join-item"
             />
             <input
               type="number"
               name="amount"
               id="amount"
+              placeholder="amount"
               className="input input-bordered w-full join-item"
             />
             {/* Submit button */}
@@ -108,7 +109,7 @@ export const Swap = () => {
             </div>
           )}
         </>
-      ):(<div></div>)}
+      ) : (<div></div>)}
     </>
   );
 };

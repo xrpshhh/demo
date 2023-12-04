@@ -26,7 +26,7 @@ export const Ledger = () => {
 
   return (
     <>
-      <div className="my-3">
+      <div className="mb-3 text-left">
         LedgerIndex: {data}
       </div>
     </>

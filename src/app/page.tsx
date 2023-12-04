@@ -1,8 +1,10 @@
 import { AccountSet } from "@/components/AccountSet";
 import { Checks } from "@/components/Checks";
+import { Issue } from "@/components/Issue";
 import { Ledger } from "@/components/Ledger";
 import { Payload } from "@/components/Payload";
 import { Swap } from "@/components/Swap";
+import { TrustSet } from "@/components/TrustSet";
 import { Xaman } from "@/components/Xaman";
 
 export default function App() {
@@ -14,6 +16,8 @@ export default function App() {
           <Xaman />
           <Payload />
           <Checks />
+          <TrustSet />
+          <Issue />
           <Swap />
           <AccountSet />
         </div>

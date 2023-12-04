@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useUser } from "@/components/UserProvider";
 import { Imagine } from "./Imagine";
-import { convertStringToHex } from "xrpl";
 
 // Define the type for the transaction status
 type TransactionStatus = {
@@ -15,13 +14,14 @@ type TransactionStatus = {
 };
 
 // Payload component
-export const AccountSet = () => {
+export const TrustSet = () => {
   // Get user information and Xumm instance
   const { userInfo, xumm } = useUser();
 
   // Define state variables
   const [qr, setQr] = useState<string | undefined>(undefined);
   const [tx, setTx] = useState<TransactionStatus | undefined>(undefined);
+
   // Handle the payload status and polling
   const handlePayloadStatus = async (payload: any) => {
     const checkPayloadStatus = setInterval(async () => {
@@ -38,33 +38,21 @@ export const AccountSet = () => {
     }, 20000);
   };
 
-  // Handle the account set transaction
-  const handleAccountSet = async (event: React.FormEvent<HTMLFormElement>) => {
+  // Handle the payment process
+  const Trust = async () => {
     setTx(undefined);
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const domain = formData?.get("domain");
-    const email = formData?.get("email");
-
-    const domainHex = convertStringToHex(domain as string);
-
-    const crypto = require('crypto');
-    const md5hex = (str?: string) => {
-      const hash = crypto.createHash('md5').update(str, 'binary').digest('hex');
-      return hash.toUpperCase();
-    };
-    const emailhash = md5hex(email as string || "");
 
     const payload = await xumm.payload?.create({
-      TransactionType: 'AccountSet',
-      Domain: domainHex,
-      EmailHash: emailhash,
-      Flags: 8,
-      // Memos: ["It's My Infomation"],
-      // Fee: '1000000',
-      // NetworkID: '21338',
+      TransactionType: 'TrustSet',
+      Flags: '262144',
+      LimitAmount: {
+        currency: 'JAN',
+        issuer: 'r589XuNWLyX4QP5JQtbP63QpP1ybXGRwZ',
+        value: '10000'
+      }
     });
     setQr(payload?.refs.qr_png);
+
     await xumm.xapp?.openSignRequest(payload);
 
     if (payload?.pushed) {
@@ -73,33 +61,15 @@ export const AccountSet = () => {
       alert('Payload not pushed, opening payload...');
       window.open(payload?.next.always);
     }
+
     handlePayloadStatus(payload);
   };
 
   return (
     <>
-      {userInfo.account ? (
+      {userInfo.account && (
         <>
-          {/* Account set form */}
-          <form onSubmit={handleAccountSet} className="m-4 join join-vertical">
-            {/* Input fields */}
-            <input
-              type="text"
-              name="domain"
-              id="domain"
-              placeholder="example.com"
-              className="input input-bordered w-full join-item"
-            />
-            <input
-              type="text"
-              name="email"
-              id="email"
-              placeholder="example@gmail.com"
-              className="input input-bordered w-full join-item"
-            />
-            {/* Submit button */}
-            <button className="btn btn-neutral join-item text-2xl">AccountSet</button>
-          </form>
+          <button onMouseDown={Trust} className="m-4 btn btn-neutral btn-lg text-2xl">TrustSet</button>
           {/* Display QR code */}
           {qr && <Imagine src={qr} alt="QR" height={150} width={150} className="mx-auto m-4" />}
           {/* Display transaction details */}
@@ -117,7 +87,7 @@ export const AccountSet = () => {
             </div>
           )}
         </>
-      ):(<div></div>)}
+      )}
     </>
   );
 };

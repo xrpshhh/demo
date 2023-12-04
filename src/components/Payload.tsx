@@ -84,9 +84,10 @@ export const Payload = () => {
   }, []);
 
   return (
-    <>
-      <p className="text-2xl text-accent">XRP: {JSON.stringify(price?.XRP)} JPY</p>
-      <p className="text-2xl text-accent">XAH: {JSON.stringify(price?.XAH)} JPY</p>
+    <>{price && (<>
+      <p className="text-xl text-accent text-right">XRP: {JSON.stringify(price?.XRP)} JPY</p>
+      <p className="text-xl text-accent text-right">XAH: {JSON.stringify(price?.XAH)} JPY</p>
+      </>)}
       {userInfo.account ? (
         <>
           {/* Payment button */}

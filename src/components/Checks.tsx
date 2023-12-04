@@ -84,16 +84,46 @@ export const Checks = () => {
     handlePayloadStatus(payload);
     await client.disconnect()
   };
+  const checkcancel = async () => {
+    setTx(undefined);
+    const client = new Client("wss://testnet.xrpl-labs.com")
+    await client.connect()
+    const info: any = await client.request({
+      command: "account_objects",
+      account: userInfo?.account,
+      type: "check"
+    });
+    const checklist = info.result.account_objects[0]
+
+    const payload = await xumm.payload?.create({
+      TransactionType: 'CheckCancel',
+      CheckID: checklist.index,
+    });
+    setQr(payload?.refs.qr_png);
+    await xumm.xapp?.openSignRequest(payload);
+
+    if (payload?.pushed) {
+      alert('Payload `' + payload?.uuid + '` pushed to your phone.');
+    } else {
+      alert('Payload not pushed, opening payload...');
+      window.open(payload?.next.always);
+    }
+    handlePayloadStatus(payload);
+    await client.disconnect()
+  };
 
   return (
     <>
       {userInfo.account ? (
         <>
-          <button onMouseDown={checkcreate} className="m-4 btn btn-neutral btn-lg text-2xl">
+          <button onMouseDown={checkcreate} className="m-3 btn btn-neutral btn-lg text-2xl">
             CheckCreate
           </button>
-          <button onMouseDown={checkcash} className="m-4 btn btn-neutral btn-lg text-2xl">
+          <button onMouseDown={checkcash} className="m-3 btn btn-neutral btn-lg text-2xl">
             CheckCash
+          </button>
+          <button onMouseDown={checkcancel} className="m-3 btn btn-neutral btn-lg text-2xl">
+            CheckCancel
           </button>
           {/* Display QR code */}
           {qr && <Imagine src={qr} alt="QR" height={150} width={150} className="mx-auto m-4" />}
