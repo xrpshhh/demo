@@ -28,6 +28,7 @@ export const AccountSet = () => {
       const status = await xumm.payload?.get(payload?.uuid as string);
       if (status?.meta.resolved && !status?.meta.cancelled) {
         clearInterval(checkPayloadStatus);
+        setTx(status);
         setQr(undefined);
       } else if (status?.meta.resolved && !tx && !status?.meta.cancelled) {
         clearInterval(checkPayloadStatus);
@@ -104,20 +105,13 @@ export const AccountSet = () => {
           {tx && (
             <div className="mx-auto">
               <dl className="truncate text-left">
-                <dt>Transaction: </dt>
-                <dd>{tx.payload.tx_type}</dd>
-                <dt>Stats: </dt>
-                {tx.meta.resolved && <dd>Success</dd>}
-                <dt>From: </dt>
-                <dd>{tx.response.account}</dd>
-                <dt>Txid: </dt>
-                <dd>{tx.response.txid}</dd>
-                <dt>Tx:Hex: </dt>
-                <dd>{tx.response.hex}</dd>
-                <dt>Time: </dt>
-                <dd>{tx.response.resolved_at}</dd>
-                <dt>Tx_uuid: </dt>
-                <dd>{tx.meta.uuid}</dd>
+                <dt>Transaction: </dt><dd>{tx.payload.tx_type}</dd>
+                <dt>Stats: </dt>{tx.meta.resolved && <dd>Success</dd>}
+                <dt>From: </dt><dd>{tx.response.account}</dd>
+                <dt>Txid: </dt><dd>{tx.response.txid}</dd>
+                <dt>Tx:Hex: </dt><dd>{tx.response.hex}</dd>
+                <dt>Time: </dt><dd>{tx.response.resolved_at}</dd>
+                <dt>Tx_uuid: </dt><dd>{tx.meta.uuid}</dd>
               </dl>
             </div>
           )}

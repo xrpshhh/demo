@@ -3,7 +3,7 @@ import React, { useState, useRef } from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import { Imagine } from "@/components/Imagine"
 import { useUser } from "@/components/UserProvider"
-// import { Xaman } from "@/components/Xaman"
+// import { DID } from "@/components/DID"
 // import { NFT } from "@/components/NFT"
 
 type UserProfile = {
@@ -190,9 +190,6 @@ export const EditProfile = () => {
 
                     <Imagine priority={false} src={originalAvatar || `${ipfs}/avatar.png`} alt="avatar" width={150} height={150} className="m-4 mx-auto avatar rounded-full ring ring-primary"
                         onClick={() => { (window as any).my_modal_2.showModal(); updateCanvas(); }} />
-                    {/* <Imagine priority={true} src={originalAvatar || `${ipfs}/avatar.png`} alt="avatar" fill={true} className="m-4 p-4 w-36 h-36 mx-auto avatar rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"
-                        onClick={() => { (window as any).my_modal_2.showModal(); updateCanvas(); }} /> */}
-                    {/* <button className="btn btn-sm btn-ghost w-8 mx-auto normal-case" onClick={() => { window.my_modal_2.showModal(); updateCanvas(); }}>Edit</button> */}
 
                     <div className="flex items-center justify-center">
                         <h2 id="account" className="text-xl truncate">
@@ -204,7 +201,7 @@ export const EditProfile = () => {
                         }}>Copy
                         </button>
                     </div>
-                                                {/* <Xaman /> */}
+
                     <h3 id="name" className="text-lg">
                         {userInfo.name}
                     </h3>
@@ -223,8 +220,9 @@ export const EditProfile = () => {
                     <button className="btn btn-secondary mt-4 mx-auto block normal-case" onClick={() => setIsEditing(true)}>
                         Edit Profile
                     </button>
+                    {/* <DID /> */}
+                    {/* <NFT /> */}
                 </div>
-                {/* <NFT /> */}
                 </>
             )}
             {/* アバター編集モーダル */}

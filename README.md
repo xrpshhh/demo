@@ -140,7 +140,3 @@ docker compose up
 - cssをインラインスタイルで記述できてnextjsと相性が良い
 ### [daisyUI](https://daisyui.com/components/)
 - tailwindcssのコンポーネントが用意されていてレスポンシブ対応
-### [next auth](https://next-auth.js.org/)
-- Oauthライブラリで多数のプラットフォームに対応
-### [i18n](https://www.i18next.com/)
-- 多言語対応のライブラリ

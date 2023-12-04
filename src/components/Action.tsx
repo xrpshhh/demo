@@ -13,7 +13,7 @@ export async function createAccount() {
     // 残高を取得
     const balance = await client.getXrpBalance(wallet.address);
 
-    // 表示するウォレットのデータを定義
+    // 表示するウォレットのデータ
     const newWallet = {
       address: wallet.address,
       publicKey: wallet.publicKey,
@@ -43,7 +43,7 @@ export async function getWallet(formData: FormData) {
     // 残高を取得
     const balance = await client.getXrpBalance(wallet.address);
 
-    // 表示するウォレットのリスト
+    // 表示するウォレットのデータ
     const currentWallet = {
         address: wallet.address,
         seed: seed,

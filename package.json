@@ -21,20 +21,16 @@
     "eslint": "8.53.0",
     "eslint-config-next": "14.0.2",
     "next": "14.0.3",
-    "next-auth": "^4.24.5",
-    "next-i18next": "^15.0.0",
-    "next-translate": "^2.6.2",
     "postcss": "8.4.31",
-    "qrcode": "^1.5.3",
     "react": "18.2.0",
     "react-avatar-editor": "^13.0.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.48.2",
     "tailwindcss": "3.3.5",
-    "toml": "^3.0.0",
     "typescript": "5.2.2",
-    "xrpl": "^2.13.0",
-    "xumm": "^1.6.4"
+    "xrpl": "^2.14.0",
+    "xrpl-accountlib": "^3.0.0",
+    "xumm": "^1.6.6"
   },
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.7.3",

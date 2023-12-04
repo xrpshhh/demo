@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useUser } from "@/components/UserProvider";
 import { Imagine } from "./Imagine";
 
@@ -14,7 +14,7 @@ type TransactionStatus = {
 };
 
 // Payload component
-export const Payload = () => {
+export const DID = () => {
   // Get user information and Xumm instance
   const { userInfo, xumm } = useUser();
 
@@ -39,18 +39,16 @@ export const Payload = () => {
   };
 
   // Handle the payment process
-  const handlePayment = async (event: React.FormEvent<HTMLFormElement>) => {
+  const DIDset = async (event: React.FormEvent<HTMLFormElement>) => {
     setTx(undefined);
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const amount = formData?.get("amount");
-    const value = (amount as any) * 1000000
+    const uri = formData?.get("uri");
 
     const payload = await xumm.payload?.create({
-      TransactionType: 'Payment',
-      Destination: 'r589XuNWLyX4QP5JQtbP63QpP1ybXGRwZ',
-      Amount: String(value) || String(123_456),
-      // HooksPrameters: [{}]
+      // TransactionType: 'DIDSet',
+      TransactionType: 'SignIn',
+      URI: 'uri',
     });
     setQr(payload?.refs.qr_png);
 
@@ -66,41 +64,20 @@ export const Payload = () => {
     handlePayloadStatus(payload);
   };
 
-  // Handle the sign action
-  const handleSign = async () => {
-    await xumm.authorize();
-  };
-
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      try {
-        const price = await xumm.helpers?.getRates('JPY');
-        setPrice(price as any);
-      } catch (error) {
-        throw new Error()
-      }
-    }, 8000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <>
-      <p className="text-2xl text-accent">XRP: {JSON.stringify(price?.XRP)} JPY</p>
-      <p className="text-2xl text-accent">XAH: {JSON.stringify(price?.XAH)} JPY</p>
-      {userInfo.account ? (
+      {userInfo.account && (
         <>
-          {/* Payment button */}
-          {/* Account set form */}
-          <form onSubmit={handlePayment} className="m-4 join join-vertical">
+          <form onSubmit={DIDset} className="m-4 join join-vertical">
             {/* Input fields */}
             <input
-              type="number"
-              name="amount"
-              id="amount"
+              type="text"
+              name="uri"
+              id="uri"
+              placeholder="URI"
               className="input input-bordered w-full join-item"
             />
-            {/* Submit button */}
-            <button className="btn btn-neutral join-item text-2xl">Send</button>
+            <button className="btn btn-neutral join-item text-xl">DID Set</button>
           </form>
           {/* Display QR code */}
           {qr && <Imagine src={qr} alt="QR" height={150} width={150} className="mx-auto m-4" />}
@@ -119,11 +96,6 @@ export const Payload = () => {
             </div>
           )}
         </>
-      ) : (
-        // Sign button for users without an account
-        <button className="m-4 btn btn-primary btn-lg text-3xl" onMouseDown={handleSign}>
-          Connect
-        </button>
       )}
     </>
   );

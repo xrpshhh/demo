@@ -5,11 +5,10 @@ import { useState } from "react";
 import { Client } from "xrpl";
 
 export const Xaman = () => {
-  const [data, setData] = useState("")
+  // const [data, setData] = useState("")
   const [balance, setBalance] = useState("")
-  const { xumm, userInfo } = useUser();
+  const { userInfo } = useUser();
   (async () => {
-    // console.log(await xumm.helpers?.getCuratedAssets());
     const client = new Client('wss://xahau-test.net')
     await client.connect();
     const info: any = await client.request({
@@ -18,7 +17,7 @@ export const Xaman = () => {
     });
     const balance = await client.getXrpBalance(userInfo.account || "");
     const accountData = JSON.stringify(await info.result.account_data, null, 2);
-    setData(accountData)
+    // setData(accountData)
     setBalance(balance);
     await client.disconnect()
   })
@@ -27,10 +26,10 @@ export const Xaman = () => {
   return (
     <>
       {userInfo.account && (
-        <>
-          Balance: {balance}
+        <div className="text-xl my-1">
+          Wallet Balance: {balance} XRP
           {/* {data} */}
-        </>
+        </div>
       )}
     </>
   )
