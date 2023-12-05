@@ -22,6 +22,7 @@ interface AccountNFTResponse {
     validated: boolean;
     nodepref: string;
 }
+
 export const NFT = () => {
     const { userInfo } = useUser();
 
@@ -39,7 +40,7 @@ export const NFT = () => {
                     account: userInfo?.account
                 });
                 setInfo(response.result as AccountNFTResponse);
-                // await client.disconnect();
+                await client.disconnect();
             };
             setup();
         }

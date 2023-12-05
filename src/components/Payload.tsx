@@ -79,7 +79,7 @@ export const Payload = () => {
       } catch (error) {
         throw new Error()
       }
-    }, 8000);
+    }, 20000);
     return () => clearInterval(interval);
   }, []);
 

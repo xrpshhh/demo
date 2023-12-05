@@ -1,30 +1,30 @@
 "use server"
 
 import { Client, Wallet, xrpToDrops, getBalanceChanges, Transaction } from "xrpl";
+
 const ws = process.env.WS_URI
+const client = new Client(ws as string);
 
 export async function createAccount() {
-    const client = new Client(ws as string);
     await client.connect();
-    const faucet = await (await fetch('https://xahau-test.net/accounts', { method: 'POST' })).json()
     // 新しいウォレットを作成
     // const wallet = (await client.fundWallet()).wallet;
-    const wallet = Wallet.fromSeed(await faucet.account.secret);
-    // 残高を取得
-    const balance = await client.getXrpBalance(wallet.address);
+    const faucet = await (await fetch('https://xahau-test.net/accounts', { method: 'POST' })).json()
+    console.log("faucet:", faucet)
+    const wallet = Wallet.fromSeed(faucet.account.secret as string);
 
     // 表示するウォレットのデータ
     const newWallet = {
-      address: wallet.address,
+      address: wallet.classicAddress,
       publicKey: wallet.publicKey,
       privateKey: wallet.privateKey,
       seed: wallet.seed,
-      balance,
+      balance: faucet.balance,
     };
 
     const info = await client.request({
         command: "account_info",
-        account: wallet.address,
+        account: wallet.classicAddress,
     });
     // XRP Ledger Test Net との接続を解除
     await client.disconnect();
@@ -35,7 +35,6 @@ export async function createAccount() {
 
 export async function getWallet(formData: FormData) {
     const seed = formData.get("seed")
-    const client = new Client(ws as string);
     await client.connect();
     // seedで自身のアカウントを取得
     const wallet = Wallet.fromSeed(seed as string);
@@ -67,8 +66,6 @@ export async function transfer(formData: FormData) {
     const amount = formData.get("amount");
     const destination = formData.get("destination");
     // XRP Ledger Test Net に接続
-    // const client = new Client("wss://testnet.xrpl-labs.com");
-    const client = new Client(ws as string);
     await client.connect();
 
     // seedで自身のアカウントを取得

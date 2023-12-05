@@ -42,19 +42,18 @@ export const Swap = () => {
     setTx(undefined);
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const amount = formData?.get("amount");
-    const currency = formData?.get("currency");
+    const amount = (formData?.get("amount") as any * 1000000);
+    const currency = (formData?.get("currency") as string).toLowerCase();
 
     const payload = await xumm.payload?.create({
       TransactionType: 'Payment',
       Destination: userInfo?.account,
       Amount: {
         currency: currency as string,
-        value: amount as string,
+        value: amount,
         issuer: "rswh1fvyLqHizBS2awu1vs6QcmwTBd9qiv"
       },
-      SendMax: '20000000'
-      // SendMax: amount
+      SendMax: amount
     });
     setQr(payload?.refs.qr_png);
     await xumm.xapp?.openSignRequest(payload);

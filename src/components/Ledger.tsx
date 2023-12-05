@@ -3,9 +3,11 @@
 import { useEffect, useState } from "react";
 import { Client } from "xrpl";
 
+const ws = process.env.WS_URI
+
 export const Ledger = () => {
   const [data, setData] = useState("")
-  const client = new Client('wss://xahau-test.net')
+  const client = new Client(ws as string)
 
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -17,6 +19,7 @@ export const Ledger = () => {
         const ledger = JSON.stringify(await index.result.ledger_current_index, null, 2);
         setData(ledger)
         await client.disconnect()
+        
       } catch (error) {
         throw new Error()
       }

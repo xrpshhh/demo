@@ -4,6 +4,7 @@ import { useUser } from "@/components/UserProvider";
 import { EditProfile } from "@/components/EditProfile";
 
 export const runtime = 'edge';
+const origin = process.env.ORIGIN
 
 export default function Profile() {
     const router = useRouter();
@@ -13,7 +14,7 @@ export default function Profile() {
 
     //ログインしている場合は/アカウント名のパスでプロフィール画面を表示する
     if (userInfo.account && `/${userInfo.account}` !== pathname) {
-        router.replace(`/${userInfo.account}`);
+        router.push(`${origin}/${userInfo.account}`);
     }
 
     return (
@@ -21,7 +22,7 @@ export default function Profile() {
             {userInfo.account ? (
                 <EditProfile />
             ) : (
-                <>{router.push('/')}</>
+                <>{router.push(`${origin}/`)}</>
             )}
         </>
     )

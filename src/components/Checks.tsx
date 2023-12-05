@@ -14,6 +14,8 @@ type TransactionStatus = {
   custom_meta?: any;
 };
 
+const ws = process.env.WS_URI
+
 // Payload component
 export const Checks = () => {
   const { userInfo, xumm } = useUser();
@@ -58,7 +60,7 @@ export const Checks = () => {
 
   const checkcash = async () => {
     setTx(undefined);
-    const client = new Client("wss://testnet.xrpl-labs.com")
+    const client = new Client(ws as string)
     await client.connect()
     const info: any = await client.request({
       command: "account_objects",
@@ -86,7 +88,7 @@ export const Checks = () => {
   };
   const checkcancel = async () => {
     setTx(undefined);
-    const client = new Client("wss://testnet.xrpl-labs.com")
+    const client = new Client(ws as string)
     await client.connect()
     const info: any = await client.request({
       command: "account_objects",

@@ -49,7 +49,7 @@ export const Test = () => {
                     </div>
                 </div>
                 {/* シードから作成 */}
-                <div className="p-4 lg:w-2/3 md:w-full mx-auto">
+                {/* <div className="p-4 lg:w-2/3 md:w-full mx-auto">
                     <div className="card-bordered border-primary card p-4">
                         <h2 className="card-title text-xl sm:text-2xl">
                         Seed to account (seed is secret)
@@ -74,7 +74,7 @@ export const Test = () => {
                             <button className="mt-4 btn btn-accent">get</button>
                         </form>
                     </div>
-                </div>
+                </div> */}
 
                 {Wallet.address && (<>
                     <div className="p-4 lg:w-2/3 md:w-full mx-auto">

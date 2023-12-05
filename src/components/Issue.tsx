@@ -38,7 +38,6 @@ export const Issue = () => {
     }, 20000);
   };
 
-  // Handle the payment process
   const issue = async() => {
     setTx(undefined);
 

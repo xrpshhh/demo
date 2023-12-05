@@ -27,11 +27,11 @@ export const Nav = () => {
                     <li><Link href="/" className="[transition:0.3s] text-lg hover:text-primary">Home</Link></li>
                     {/* <li><Link href="/" className="[transition:0.3s] text-lg hover:text-primary">About</Link></li> */}
                     <li><Link href="/" className="[transition:0.3s] text-lg hover:text-primary">Docs</Link></li>
-                    <li><Link href="/" className="[transition:0.3s] text-lg hover:text-primary">Contact</Link></li>
-                    <li><Link href="https://youtube.com/" target="_blank" rel="noopener noreferrer">
+                    {/* <li><Link href="/" className="[transition:0.3s] text-lg hover:text-primary">Contact</Link></li> */}
+                    {/* <li><Link href="https://youtube.com/" target="_blank" rel="noopener noreferrer">
                         <Imagine src={`${ipfs}/youtube.png`} priority width={40} height={40} alt="youtube" />
-                    </Link></li>
-                    <li><Link href="https://twitter.com/" target="_blank" rel="noopener noreferrer">
+                    </Link></li> */}
+                    <li><Link href="https://x.com/" target="_blank" rel="noopener noreferrer">
                         <Imagine src={`${ipfs}/twitter.png`} priority width={40} height={40} alt="twitter" />
                     </Link></li>
                     <li><Link href="https://github.com/" target="_blank" rel="noopener noreferrer">

@@ -14,7 +14,8 @@ module.exports = {
   env: {
     XUMMAPI: process.env.XUMMAPI,
     XUMMSECRET: process.env.XUMMSECRET,
-    WS_URI: process.env.WS_URI
+    WS_URI: process.env.WS_URI,
+    ORIGIN: process.env.ORIGIN,
   },
   async rewrites() {
     return [
