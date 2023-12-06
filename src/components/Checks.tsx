@@ -19,10 +19,10 @@ const ws = process.env.WS_URI
 // Payload component
 export const Checks = () => {
   const { userInfo, xumm } = useUser();
-
   // Define state variables
   const [qr, setQr] = useState<string | undefined>(undefined);
   const [tx, setTx] = useState<TransactionStatus | undefined>(undefined);
+  const [check, setCheck] = useState<any | undefined>(undefined);
 
   const handlePayloadStatus = async (payload: any) => {
     const checkPayloadStatus: any = setInterval(async () => {
@@ -39,12 +39,28 @@ export const Checks = () => {
     }, 20000);
   };
 
+  const checklist = async () => {
+    if (userInfo) {
+      const client = new Client(ws as string)
+      await client.connect()
+      const info: any = await client.request({
+        command: "account_objects",
+        account: userInfo?.account,
+        type: "check"
+      });
+      await client.disconnect()
+      const checklist = info.result.account_objects[0]
+      setCheck(checklist)
+    }
+  }
+
   const checkcreate = async () => {
     setTx(undefined);
     const payload = await xumm.payload?.create({
       TransactionType: 'CheckCreate',
       Destination: 'r9BUM9z14j7bLFzQHRfurWNdNKYSABdGtE',
       SendMax: String(123_456),
+      Fee: 123,
     });
     setQr(payload?.refs.qr_png);
     await xumm.xapp?.openSignRequest(payload);
@@ -59,74 +75,68 @@ export const Checks = () => {
   };
 
   const checkcash = async () => {
-    setTx(undefined);
-    const client = new Client(ws as string)
-    await client.connect()
-    const info: any = await client.request({
-      command: "account_objects",
-      account: userInfo?.account,
-      type: "check"
-    });
-    const checklist = info.result.account_objects[0]
+    checklist();
+    if (check) {
+      setTx(undefined);
+      const payload = await xumm.payload?.create({
+        TransactionType: 'CheckCash',
+        Amount: check.SendMax,
+        CheckID: check.index,
+      });
+      setQr(payload?.refs.qr_png);
+      await xumm.xapp?.openSignRequest(payload);
 
-    const payload = await xumm.payload?.create({
-      TransactionType: 'CheckCash',
-      Amount: checklist.SendMax,
-      CheckID: checklist.index,
-    });
-    setQr(payload?.refs.qr_png);
-    await xumm.xapp?.openSignRequest(payload);
-
-    if (payload?.pushed) {
-      alert('Payload `' + payload?.uuid + '` pushed to your phone.');
-    } else {
-      alert('Payload not pushed, opening payload...');
-      window.open(payload?.next.always);
+      if (payload?.pushed) {
+        alert('Payload `' + payload?.uuid + '` pushed to your phone.');
+      } else {
+        alert('Payload not pushed, opening payload...');
+        window.open(payload?.next.always);
+      }
+      handlePayloadStatus(payload);
     }
-    handlePayloadStatus(payload);
-    await client.disconnect()
   };
+
   const checkcancel = async () => {
-    setTx(undefined);
-    const client = new Client(ws as string)
-    await client.connect()
-    const info: any = await client.request({
-      command: "account_objects",
-      account: userInfo?.account,
-      type: "check"
-    });
-    const checklist = info.result.account_objects[0]
+    checklist()
+    if (check) {
+      setTx(undefined);
+      const payload = await xumm.payload?.create({
+        TransactionType: 'CheckCancel',
+        CheckID: check?.index as any,
+      });
+      setQr(payload?.refs.qr_png);
+      await xumm.xapp?.openSignRequest(payload);
 
-    const payload = await xumm.payload?.create({
-      TransactionType: 'CheckCancel',
-      CheckID: checklist.index,
-    });
-    setQr(payload?.refs.qr_png);
-    await xumm.xapp?.openSignRequest(payload);
-
-    if (payload?.pushed) {
-      alert('Payload `' + payload?.uuid + '` pushed to your phone.');
-    } else {
-      alert('Payload not pushed, opening payload...');
-      window.open(payload?.next.always);
+      if (payload?.pushed) {
+        alert('Payload `' + payload?.uuid + '` pushed to your phone.');
+      } else {
+        alert('Payload not pushed, opening payload...');
+        window.open(payload?.next.always);
+      }
+      handlePayloadStatus(payload);
     }
-    handlePayloadStatus(payload);
-    await client.disconnect()
   };
 
   return (
     <>
       {userInfo.account ? (
         <>
-          <button onMouseDown={checkcreate} className="m-3 btn btn-neutral btn-lg text-2xl">
+          {/* <button onMouseDown={checkcreate} className="m-3 btn btn-neutral btn-lg text-xl">
             CheckCreate
+          </button> */}
+          {check ? (
+            <div>
+              The amount you can currently withdraw is {check.SendMax}XAH
+            </div>
+          ) : (
+            <div>No deposits.</div>
+          )}
+          <button onMouseDown={checkcash} className="m-3 btn btn-neutral btn-lg text-xl">
+            Withdraw cash and rewards
           </button>
-          <button onMouseDown={checkcash} className="m-3 btn btn-neutral btn-lg text-2xl">
-            CheckCash
-          </button>
-          <button onMouseDown={checkcancel} className="m-3 btn btn-neutral btn-lg text-2xl">
+          {/* <button onMouseDown={checkcancel} className="m-3 btn btn-neutral btn-lg text-xl">
             CheckCancel
-          </button>
+          </button> */}
           {/* Display QR code */}
           {qr && <Imagine src={qr} alt="QR" height={150} width={150} className="mx-auto m-4" />}
           {/* Display transaction details */}
@@ -144,8 +154,8 @@ export const Checks = () => {
             </div>
           )}
         </>
-      ):(<div></div>)
-    }
-  </>
+      ) : (<div></div>)
+      }
+    </>
   )
 };

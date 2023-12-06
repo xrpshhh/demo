@@ -3,11 +3,10 @@
 import { useEffect, useState } from "react";
 import { Client } from "xrpl";
 
-const ws = process.env.WS_URI
-
 export const Ledger = () => {
-  const [data, setData] = useState("")
+  const ws = process.env.WS_URI
   const client = new Client(ws as string)
+  const [data, setData] = useState("")
 
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -16,20 +15,21 @@ export const Ledger = () => {
         const index: any = await client.request({
           command: "ledger_current",
         });
-        const ledger = JSON.stringify(await index.result.ledger_current_index, null, 2);
+        const ledger = await index.result.ledger_current_index as string;
         setData(ledger)
         await client.disconnect()
-        
       } catch (error) {
         throw new Error()
       }
-    }, 3000);
+    }, 4000);
     return () => clearInterval(interval);
   }, []);
 
   return (
     <>
-      <div className="mb-3 text-left">
+      <div className="mb-3 text-left text-info">
+        {ws}
+        <br />
         LedgerIndex: {data}
       </div>
     </>

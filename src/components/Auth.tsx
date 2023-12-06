@@ -7,7 +7,6 @@ import { useUser } from "@/components/UserProvider"
 export const Auth = () => {
     const { userInfo, xumm } = useUser();
     const router = useRouter();
-
     const [account, setAccount] = useState(userInfo.account || undefined);
 
     useEffect(() => {
@@ -17,9 +16,9 @@ export const Auth = () => {
     const connect = async () => {
         try {
             await xumm.authorize();
-            setAccount(await xumm.user.account);
-            if (account) {
-                router.push(`/${account}`);
+            if (xumm.user) {
+                setAccount(await xumm.user.account)
+                router.replace(`/${account}`);
             }
         } catch (error) {
             console.error("Error during connection:", error);
@@ -30,7 +29,7 @@ export const Auth = () => {
         try {
             await xumm.logout();
             setAccount(undefined);
-            router.push("/");
+            router.refresh();
         } catch (error) {
             console.error("Error during logout:", error);
         }
@@ -45,14 +44,14 @@ export const Auth = () => {
                     </label>
                     <ul tabIndex={0} className="p-2 z-[10] shadow menu menu-md dropdown-content bg-base-100 rounded-box w-auto bg-opacity-90">
                         <li>
-                            <a onMouseDown={() => router.replace(`/${userInfo.account}`)}>
+                            <a onMouseDown={() => router.push(`/${account}`)}>
                                 <button className="btn btn-xs hover:text-primary">
                                     Profile</button>
                                 <span className="badge">Account</span>
                             </a>
                         </li>
                         <li>
-                            <a onMouseDown={() => router.replace("/test")}>
+                            <a onMouseDown={() => router.push("/test")}>
                                 <button className="btn btn-xs hover:text-primary">Set</button>
                                 <span className="badge">Test</span>
                             </a>

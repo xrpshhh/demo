@@ -49,7 +49,8 @@ export const TrustSet = () => {
         currency: 'JAN',
         issuer: 'r589XuNWLyX4QP5JQtbP63QpP1ybXGRwZ',
         value: '10000'
-      }
+      },
+      Fee: 123,
     });
     setQr(payload?.refs.qr_png);
 
@@ -69,7 +70,9 @@ export const TrustSet = () => {
     <>
       {userInfo.account && (
         <>
-          <button onMouseDown={Trust} className="m-4 btn btn-neutral btn-lg text-2xl">TrustSet</button>
+          <button onMouseDown={Trust} className="m-4 btn btn-neutral btn-lg text-xl">
+            $JAN Token setting
+          </button>
           {/* Display QR code */}
           {qr && <Imagine src={qr} alt="QR" height={150} width={150} className="mx-auto m-4" />}
           {/* Display transaction details */}

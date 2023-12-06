@@ -7,37 +7,45 @@ import { Client } from "xrpl";
 const ws = process.env.WS_URI
 
 export const Xaman = () => {
-  // const [data, setData] = useState("")
+  const [price, setPrice] = useState<{ XRP?: string; XAH?: string }>();
   const [balance, setBalance] = useState("")
-  const { userInfo } = useUser();
+  const { xumm, userInfo } = useUser();
 
   useEffect(() => {
     const fetchData = async () => {
-      if (userInfo) {
+      const price: any = await xumm.helpers?.getRates('JPY');
+      setPrice(price);
+    };
+
+    fetchData()
+    const interval = setInterval(fetchData, 40000)
+    return () => clearInterval(interval);
+  }, [xumm]);
+
+  useEffect(() => {
+    const fetchData = async () => {
       const client = new Client(ws as string);
       await client.connect();
-      const info = await client.request({
-        command: "account_info",
-        account: userInfo?.account
-      });
       const balance = await client.getXrpBalance(userInfo.account as string);
-      // const accountData = JSON.stringify(await info.result.account_data, null, 2);
-      // setData(accountData)
       setBalance(balance);
       await client.disconnect();
-    }};
+    }
 
     fetchData();
-  }, []);
+  }, [userInfo]);
 
   return (
     <>
       {balance && (
         <div className="text-lg my-1">
-          WalletBalance: {balance}XRP
-          {/* {data} */}
+          Balance: {balance} XAH
         </div>
       )}
+      <div className="text-xl text-accent text-right">
+        XRP: {JSON.stringify(price?.XRP)} JPY
+        <br />
+        XAH: {JSON.stringify(price?.XAH)} JPY
+      </div>
     </>
   )
 }

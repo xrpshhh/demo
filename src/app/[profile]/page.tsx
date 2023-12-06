@@ -9,21 +9,13 @@ const origin = process.env.ORIGIN
 export default function Profile() {
     const router = useRouter();
     const pathname = usePathname();
-
     const { userInfo } = useUser();
 
-    //ログインしている場合は/アカウント名のパスでプロフィール画面を表示する
-    if (userInfo.account && `/${userInfo.account}` !== pathname) {
-        router.push(`${origin}/${userInfo.account}`);
+    if (!userInfo.account) {
+        router.push(`${origin}`);
     }
-
-    return (
-        <>
-            {userInfo.account ? (
-                <EditProfile />
-            ) : (
-                <>{router.push(`${origin}/`)}</>
-            )}
-        </>
-    )
+    else if (pathname !== `/${userInfo.account}`) {
+        router.replace(`${origin}/${userInfo.account}`);
+    }
+    return (<EditProfile />);
 }
