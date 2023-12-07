@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "@/components/UserProvider";
 import { Imagine } from "./Imagine";
 import { Client } from 'xrpl';
@@ -40,19 +40,29 @@ export const Checks = () => {
   };
 
   const checklist = async () => {
-    if (userInfo) {
+    if (userInfo.account) {
       const client = new Client(ws as string)
       await client.connect()
       const info: any = await client.request({
         command: "account_objects",
-        account: userInfo?.account,
+        account: userInfo.account,
         type: "check"
       });
       await client.disconnect()
       const checklist = info.result.account_objects[0]
-      setCheck(checklist)
+      if (checklist) {
+        setCheck(checklist)
+      }
+      else {
+        setCheck(undefined)
+      }
     }
   }
+  useEffect(() => {
+    if (userInfo.account) {
+      checklist();
+    }
+  }, [userInfo.account]);
 
   const checkcreate = async () => {
     setTx(undefined);
@@ -75,13 +85,13 @@ export const Checks = () => {
   };
 
   const checkcash = async () => {
-    checklist();
     if (check) {
       setTx(undefined);
       const payload = await xumm.payload?.create({
         TransactionType: 'CheckCash',
         Amount: check.SendMax,
         CheckID: check.index,
+        Fee: 123,
       });
       setQr(payload?.refs.qr_png);
       await xumm.xapp?.openSignRequest(payload);
@@ -126,7 +136,7 @@ export const Checks = () => {
           </button> */}
           {check ? (
             <div>
-              The amount you can currently withdraw is {check.SendMax}XAH
+              The amount you can currently withdraw is {(check.SendMax / 1000000)} XAH
             </div>
           ) : (
             <div>No deposits.</div>

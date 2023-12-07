@@ -42,18 +42,20 @@ export const Swap = () => {
     setTx(undefined);
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const amount = (formData?.get("amount") as any * 1000000);
-    const currency = (formData?.get("currency") as string).toLowerCase();
+    const from = (formData?.get("amount") as any * 1000000);
+    const to = formData?.get("currency") as string
+    // const currency = (formData?.get("currency") as string).toLowerCase();
 
     const payload = await xumm.payload?.create({
       TransactionType: 'Payment',
       Destination: userInfo?.account,
-      Amount: {
-        currency: currency as string,
-        value: amount,
-        issuer: "rswh1fvyLqHizBS2awu1vs6QcmwTBd9qiv"
+      Amount: to,
+      SendMax: {
+        // currency: currency as string,
+        currency: "JAN",
+        value: from,
+        issuer: "r589XuNWLyX4QP5JQtbP63QpP1ybXGRwZ"
       },
-      SendMax: amount
     });
     setQr(payload?.refs.qr_png);
     await xumm.xapp?.openSignRequest(payload);
@@ -78,14 +80,15 @@ export const Swap = () => {
               type="text"
               name="currency"
               id="currency"
-              placeholder="currncy"
+              // defaultValue="JAN"
+              placeholder="to XAH"
               className="input input-bordered w-full join-item"
             />
             <input
               type="number"
               name="amount"
               id="amount"
-              placeholder="amount"
+              placeholder="from JAN"
               className="input input-bordered w-full join-item"
             />
             {/* Submit button */}

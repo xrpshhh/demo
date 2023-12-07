@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "@/components/UserProvider";
 import { Imagine } from "./Imagine";
+import { Client } from "xrpl";
+import { Swap } from "./Swap";
 
 // Define the type for the transaction status
 type TransactionStatus = {
@@ -13,6 +15,8 @@ type TransactionStatus = {
   custom_meta?: any;
 };
 
+const ws = process.env.WS_URI
+
 // Payload component
 export const TrustSet = () => {
   // Get user information and Xumm instance
@@ -21,6 +25,7 @@ export const TrustSet = () => {
   // Define state variables
   const [qr, setQr] = useState<string | undefined>(undefined);
   const [tx, setTx] = useState<TransactionStatus | undefined>(undefined);
+  const [trust, setTrust] = useState<string | undefined>(undefined);
 
   // Handle the payload status and polling
   const handlePayloadStatus = async (payload: any) => {
@@ -66,28 +71,65 @@ export const TrustSet = () => {
     handlePayloadStatus(payload);
   };
 
+  const trustlist = async () => {
+    if (userInfo.account) {
+      const client = new Client(ws as string)
+      await client.connect()
+      const info: any = await client.request({
+        command: "account_lines",
+        account: userInfo.account,
+        peer: "r589XuNWLyX4QP5JQtbP63QpP1ybXGRwZ"
+      });
+      await client.disconnect()
+      const list = info.result.lines[0]
+      if (list) {
+        setTrust(list.balance)
+      }
+      else {
+        setTrust(undefined)
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (userInfo.account) {
+      trustlist();
+    }
+  }, [userInfo.account]);
+
   return (
     <>
       {userInfo.account && (
         <>
-          <button onMouseDown={Trust} className="m-4 btn btn-neutral btn-lg text-xl">
-            $JAN Token setting
-          </button>
-          {/* Display QR code */}
-          {qr && <Imagine src={qr} alt="QR" height={150} width={150} className="mx-auto m-4" />}
-          {/* Display transaction details */}
-          {tx && (
-            <div className="mx-auto">
-              <dl className="truncate text-left">
-                <dt>Transaction: </dt><dd>{tx.payload.tx_type}</dd>
-                <dt>Stats: </dt>{tx.meta.resolved && <dd>Success</dd>}
-                <dt>From: </dt><dd>{tx.response.account}</dd>
-                <dt>Txid: </dt><dd>{tx.response.txid}</dd>
-                <dt>Tx:Hex: </dt><dd>{tx.response.hex}</dd>
-                <dt>Time: </dt><dd>{tx.response.resolved_at}</dd>
-                <dt>Tx_uuid: </dt><dd>{tx.meta.uuid}</dd>
-              </dl>
+          {trust ? (
+            <div className="flex flex-col items-center justify-center">
+              <p className="text-lg">Balance: ¥ {trust} JAN</p>
+              <p className="text-xl">Swap JAN to XAH with DEX</p>
+              <Swap />
             </div>
+          ) : (
+            <>
+              <div>No TrustLine</div>
+              <button onMouseDown={Trust} className="m-4 btn btn-neutral btn-lg text-xl">
+                ¥JAN Token setting
+              </button>
+              {/* Display QR code */}
+              {qr && <Imagine src={qr} alt="QR" height={150} width={150} className="mx-auto m-4" />}
+              {/* Display transaction details */}
+              {tx && (
+                <div className="mx-auto">
+                  <dl className="truncate text-left">
+                    <dt>Transaction: </dt><dd>{tx.payload.tx_type}</dd>
+                    <dt>Stats: </dt>{tx.meta.resolved && <dd>Success</dd>}
+                    <dt>From: </dt><dd>{tx.response.account}</dd>
+                    <dt>Txid: </dt><dd>{tx.response.txid}</dd>
+                    <dt>Tx:Hex: </dt><dd>{tx.response.hex}</dd>
+                    <dt>Time: </dt><dd>{tx.response.resolved_at}</dd>
+                    <dt>Tx_uuid: </dt><dd>{tx.meta.uuid}</dd>
+                  </dl>
+                </div>
+              )}
+            </>
           )}
         </>
       )}

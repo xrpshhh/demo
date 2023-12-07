@@ -34,6 +34,7 @@
     "xrpl": "^2.14.0",
     "xrpl-accountlib": "^3.0.0",
     "xrpl-client": "^2.2.0",
+    "xrpl-sign-keypairs": "^2.5.0",
     "xrpl-txdata": "^1.4.0",
     "xumm": "^1.6.6"
   },

@@ -75,7 +75,11 @@ export const Payload = () => {
   return (<>
     {userInfo.account ? (
       <>
-        <div className="m-2 text-left text-warning text-sm">
+        <div className="m-2 p-1 border border-warning rounded-box text-left text-warning text-sm">
+          Hooks account is
+          <br />
+          r589XuNWLyX4QP5JQtbP63QpP1ybXGRwZ
+          <br /><br />
           The minimum deposit amount is 2XAH.
           <br />
           a balance of 0.2XAH is required to withdraw.

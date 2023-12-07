@@ -11,9 +11,9 @@ export const Nav = () => {
     // const ipfs = "https://cloudflare-ipfs.com/ipfs/bafybeidwkwodllbzo35ggin25uqvl2aoho6qlslmlvdey73ufy6dcaify4";
     return (
         <header className="drawer z-10 text-accent bg-base-100 bg-opacity-80 block absolute shadow-xl border-b-neutral">
-            <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+            {/* <input id="my-drawer-2" type="checkbox" className="drawer-toggle" /> */}
             {/* サイドーバー */}
-            <nav className="drawer-side">
+            {/* <nav className="drawer-side">
                 <label htmlFor="my-drawer-2" className="drawer-overlay "></label>
                 <ul className="menu p-2 w-auto max-w-xs text-center text-lg h-full bg-base-100">
                     <li>
@@ -38,12 +38,12 @@ export const Nav = () => {
                         <Link href="https://jumpy-profit-1d1.notion.site/XRP-Shhh-79c057110e824e36aa8bba035faf73dd" className="[transition:0.3s] text-lg hover:text-primary" target="_blank" rel="noopener noreferrer">
                             Docs
                         </Link>
-                    </li>
+                    </li> */}
                     {/* <li><Link href="/" className="[transition:0.3s] text-lg hover:text-primary">Contact</Link></li> */}
                     {/* <li><Link href="https://youtube.com/" target="_blank" rel="noopener noreferrer">
                         <Imagine src={`${ipfs}/youtube.png`} priority width={40} height={40} alt="youtube" />
                     </Link></li> */}
-                    <li>
+                    {/* <li>
                         <Link href="https://x.com/" target="_blank" rel="noopener noreferrer">
                             <Imagine src={`${ipfs}/twitter.png`} priority width={40} height={40} alt="twitter" />
                         </Link>
@@ -54,7 +54,7 @@ export const Nav = () => {
                         </Link>
                     </li>
                 </ul>
-            </nav>
+            </nav> */}
             <nav className="drawer-content flex flex-col">
                 {/* Navbar */}
                 <div className="navbar">
