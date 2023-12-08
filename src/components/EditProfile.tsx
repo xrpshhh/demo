@@ -38,8 +38,6 @@ export const EditProfile = () => {
     const [scale, setScale] = useState(1);
     const editorRef = useRef<AvatarEditor | null>(null);
 
-    const ipfs = "https://cloudflare-ipfs.com/ipfs/bafybeib3pl4xv55iknhzg4aolhzvoo73o7e7mwjqcfp3freeut72ihljre";
-
     // 編集項目の変更を反映
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -188,7 +186,7 @@ export const EditProfile = () => {
                         </label>
                     </div>
 
-                    <Imagine priority={false} src={originalAvatar || `${ipfs}/avatar.png`} alt="avatar" width={150} height={150} className="m-4 mx-auto avatar rounded-full ring ring-primary"
+                    <Imagine priority={false} src={originalAvatar || `/ipfs/avatar.png`} alt="avatar" width={150} height={150} className="m-4 mx-auto avatar rounded-full ring ring-primary"
                         onClick={() => { (window as any).my_modal_2.showModal(); updateCanvas(); }} />
 
                     <div className="flex items-center justify-center">
@@ -232,7 +230,7 @@ export const EditProfile = () => {
                     <h2 className="font-bold text-lg">Edit Avatar</h2>
                     <AvatarEditor
                         ref={editorRef}
-                        image={originalAvatar || `${ipfs}/avatar.png`}
+                        image={originalAvatar || `/ipfs/avatar.png`}
                         key={originalAvatar}
                         width={250}
                         height={250}

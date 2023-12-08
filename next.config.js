@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const gateway = 'https://ipfs.io/ipfs/'
-// const gateway = 'https://cloudflare-ipfs.com/ipfs/'
-const cid = 'bafybeidwkwodllbzo35ggin25uqvl2aoho6qlslmlvdey73ufy6dcaify4'
+const cid = 'Qmcirz6Xicp8ihEfKgmnrYkNqnaCDt4PYiSvpJGNu21GTp'
 const ipfs = `${gateway}${cid}`
 
 module.exports = {

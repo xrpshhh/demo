@@ -27,7 +27,6 @@ export const Swap = () => {
       const status = await xumm.payload?.get(payload?.uuid as string);
       if (status?.meta.resolved && !status?.meta.cancelled) {
         clearInterval(checkPayloadStatus);
-        setTx(status);
         setQr(undefined);
       } else if (status?.meta.resolved && !tx && !status?.meta.cancelled) {
         clearInterval(checkPayloadStatus);
@@ -42,20 +41,19 @@ export const Swap = () => {
     setTx(undefined);
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const from = (formData?.get("amount") as any * 1000000);
-    const to = formData?.get("currency") as string
-    // const currency = (formData?.get("currency") as string).toLowerCase();
+    const amount = formData?.get("amount");
+    const currency = formData?.get("currency");
 
     const payload = await xumm.payload?.create({
       TransactionType: 'Payment',
       Destination: userInfo?.account,
-      Amount: to,
-      SendMax: {
-        // currency: currency as string,
-        currency: "JAN",
-        value: from,
-        issuer: "r589XuNWLyX4QP5JQtbP63QpP1ybXGRwZ"
+      Amount: {
+        currency: currency as string,
+        value: amount as string,
+        issuer: "rswh1fvyLqHizBS2awu1vs6QcmwTBd9qiv"
       },
+      SendMax: '20000000'
+      // SendMax: amount
     });
     setQr(payload?.refs.qr_png);
     await xumm.xapp?.openSignRequest(payload);
@@ -80,15 +78,13 @@ export const Swap = () => {
               type="text"
               name="currency"
               id="currency"
-              // defaultValue="JAN"
-              placeholder="to XAH"
+              // value="xah"
               className="input input-bordered w-full join-item"
             />
             <input
-              type="number"
+              type="text"
               name="amount"
               id="amount"
-              placeholder="from JAN"
               className="input input-bordered w-full join-item"
             />
             {/* Submit button */}
@@ -100,18 +96,25 @@ export const Swap = () => {
           {tx && (
             <div className="mx-auto">
               <dl className="truncate text-left">
-                <dt>Transaction: </dt><dd>{tx.payload.tx_type}</dd>
-                <dt>Stats: </dt>{tx.meta.resolved && <dd>Success</dd>}
-                <dt>From: </dt><dd>{tx.response.account}</dd>
-                <dt>Txid: </dt><dd>{tx.response.txid}</dd>
-                <dt>Tx:Hex: </dt><dd>{tx.response.hex}</dd>
-                <dt>Time: </dt><dd>{tx.response.resolved_at}</dd>
-                <dt>Tx_uuid: </dt><dd>{tx.meta.uuid}</dd>
+                <dt>Transaction: </dt>
+                <dd>{tx.payload.tx_type}</dd>
+                <dt>Stats: </dt>
+                {tx.meta.resolved && <dd>Success</dd>}
+                <dt>From: </dt>
+                <dd>{tx.response.account}</dd>
+                <dt>Txid: </dt>
+                <dd>{tx.response.txid}</dd>
+                <dt>Tx:Hex: </dt>
+                <dd>{tx.response.hex}</dd>
+                <dt>Time: </dt>
+                <dd>{tx.response.resolved_at}</dd>
+                <dt>Tx_uuid: </dt>
+                <dd>{tx.meta.uuid}</dd>
               </dl>
             </div>
           )}
         </>
-      ) : (<div></div>)}
+      ):(<div></div>)}
     </>
   );
 };

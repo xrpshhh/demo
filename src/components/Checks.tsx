@@ -70,7 +70,7 @@ export const Checks = () => {
       TransactionType: 'CheckCreate',
       Destination: 'r9BUM9z14j7bLFzQHRfurWNdNKYSABdGtE',
       SendMax: String(123_456),
-      Fee: 123,
+      Fee: 1234,
     });
     setQr(payload?.refs.qr_png);
     await xumm.xapp?.openSignRequest(payload);
@@ -91,7 +91,7 @@ export const Checks = () => {
         TransactionType: 'CheckCash',
         Amount: check.SendMax,
         CheckID: check.index,
-        Fee: 123,
+        // Fee: 123,
       });
       setQr(payload?.refs.qr_png);
       await xumm.xapp?.openSignRequest(payload);
@@ -131,11 +131,12 @@ export const Checks = () => {
     <>
       {userInfo.account ? (
         <>
-          {/* <button onMouseDown={checkcreate} className="m-3 btn btn-neutral btn-lg text-xl">
+          <button onMouseDown={checkcreate} className="m-3 btn btn-neutral btn-lg text-xl">
             CheckCreate
-          </button> */}
+          </button>
+
           {check ? (
-            <div>
+            <div className="stat value">
               The amount you can currently withdraw is {(check.SendMax / 1000000)} XAH
             </div>
           ) : (
@@ -144,9 +145,11 @@ export const Checks = () => {
           <button onMouseDown={checkcash} className="m-3 btn btn-neutral btn-lg text-xl">
             Withdraw cash and rewards
           </button>
+
           {/* <button onMouseDown={checkcancel} className="m-3 btn btn-neutral btn-lg text-xl">
             CheckCancel
           </button> */}
+          
           {/* Display QR code */}
           {qr && <Imagine src={qr} alt="QR" height={150} width={150} className="mx-auto m-4" />}
           {/* Display transaction details */}

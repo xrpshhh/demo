@@ -4,11 +4,10 @@ import Link from "next/link"
 import { Imagine } from "./Imagine"
 import { Auth } from "./Auth"
 import { Theme } from './Theme'
+import { useRouter } from 'next/navigation';
 
 export const Nav = () => {
-    const ipfs = '/ipfs'
-    // const ipfs = "https://ipfs.io/ipfs/bafybeidwkwodllbzo35ggin25uqvl2aoho6qlslmlvdey73ufy6dcaify4";
-    // const ipfs = "https://cloudflare-ipfs.com/ipfs/bafybeidwkwodllbzo35ggin25uqvl2aoho6qlslmlvdey73ufy6dcaify4";
+    const router = useRouter();
     return (
         <header className="drawer z-10 text-accent bg-base-100 bg-opacity-80 block absolute shadow-xl border-b-neutral">
             {/* <input id="my-drawer-2" type="checkbox" className="drawer-toggle" /> */}
@@ -56,29 +55,25 @@ export const Nav = () => {
                 </ul>
             </nav> */}
             <nav className="drawer-content flex flex-col">
-                {/* Navbar */}
                 <div className="navbar">
 
                     <div className="navbar-start">
-                        <label htmlFor="my-drawer-2" className="btn btn-square btn-ghost drawer-button">
+                        {/* <label htmlFor="my-drawer-2" className="btn btn-square btn-ghost drawer-button">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-10 h-10 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                        </label>
-                        <Link href={'/'}>
-                            <Imagine src={`${ipfs}/logo.png`} width={48} height={48} alt="logo" />
-                        </Link>
+                        </label> */}
+                        <a onMouseDown={() => router.replace("/")}>
+                            <Imagine src={"/ipfs/logo.png"} width={48} height={48} alt="logo" />
+                            </a>
                         <h1 className="text-accent font-bold text-xl">
                             XRP🤫Shhh
                         </h1>
                     </div>
-                    {/* <div className="navbar-center md:hidden">
-                        </div> */}
                     <div className="navbar-end">
                         {/* テーマアイコンとサイインイン */}
                         <Theme />
                         <Auth />
                     </div>
                 </div>
-                {/* body */}
             </nav>
         </header>
     )
