@@ -42,7 +42,7 @@ export default function App() {
     };
 
     fetchData()
-    const interval = setInterval(fetchData, 40000)
+    const interval = setInterval(fetchData, 60000)
     return () => clearInterval(interval);
   }, [xumm]);
 
@@ -146,7 +146,7 @@ export default function App() {
             </div>
 
             <div className="stat">
-              <div className="stat-title">Miminum deposit</div>
+              <div className="stat-title">Miminum deposite</div>
               <div className="stat-value font-mono">2XAH</div>
             </div>
 

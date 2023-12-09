@@ -44,7 +44,7 @@ function hook(reserved: i32) {
 
   etxn_reserve(1);
   const sender = Tx.Account;
-  const fee = 200000; // 0.2 XRP
+  const fee = 20000; // 0.02 XRP
   const newAmount = Amount.fromDrops(amount.drops - fee);
   emit({
     transactionType: TransactionType.CheckCreate,

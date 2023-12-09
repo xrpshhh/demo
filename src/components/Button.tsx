@@ -249,7 +249,8 @@ export const Button = () => {
             </>
           ) : (
             <div className="stat">
-              <div className="stat-title">No deposit.</div>
+              <div className="stat-title">No deposite.</div>
+              <div className="stat-value">Please Payment to HooksAccount</div>
             </div>
           )}
 
