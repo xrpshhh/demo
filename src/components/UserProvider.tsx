@@ -45,8 +45,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     };
       setUserInfo(user);
       // setUserInfo(profile);
-      // const jwt = await xumm.environment.jwt
-      // console.log("jwt:", jwt);
     };
     fetchData();
   }, []);

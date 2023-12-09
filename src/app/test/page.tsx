@@ -1,5 +1,8 @@
 "use client"
 
+import { Multisigh } from "@/components/Multisigh";
+import { NFTTransfer } from "@/components/NFTTransfer";
+import { Mingzat } from "next/font/google";
 import { ComponentProps, useState } from "react";
 import { Client, Wallet, xrpToDrops, Transaction } from "xrpl";
 
@@ -67,7 +70,8 @@ export default function Test() {
         <div className='p-4 py-20 container mx-auto'>
             <div className='p-3 border border-primary rounded-box'>
                 <h1 className="text-center text-info text-3xl">TEST</h1>
-
+                <Multisigh/>
+                <NFTTransfer/>
                 <div className="container mx-auto p-3">
                     {/* // アカウントを作成 /// */}
                     <div className="p-4 lg:w-2/3 md:w-full mx-auto">

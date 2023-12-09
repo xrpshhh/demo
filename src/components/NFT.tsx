@@ -82,9 +82,6 @@ export const NFT = () => {
         <div>
             {fetchedData && fetchedData.map((data: any, index: any) => (
                 <div key={index}>
-                    {/* <pre className='text-left'> */}
-                        {/* {JSON.stringify(data, null, 2)} */}
-                    {/* </pre> */}
                     {/* 画像のURIがHTTPS形式に変換されている場合、その画像を表示 */}
                     {data?.image && <Imagine src={convertIpfsToHttps(data.image)} alt={`NFT ${index}`} width={123} height={123} />}
                 </div>

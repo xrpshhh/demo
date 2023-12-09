@@ -3,16 +3,10 @@ import React, { useState, useRef } from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import { Imagine } from "@/components/Imagine"
 import { useUser } from "@/components/UserProvider"
-// import { DID } from "@/components/DID"
-// import { NFT } from "@/components/NFT"
 
 type UserProfile = {
-    // email?: string;
     nickname?: string;
-    // paystring?: string;
-    // url?: string;
-    // did?: string;
-    // tel?: string;
+    url?: string;
     bio?: string;
 };
 
@@ -21,12 +15,8 @@ export const EditProfile = () => {
 
     const profile = {
         nickname: "",
-        // email: "",
         bio: "",
-        // paystring: "",
-        // url: "",
-        // did: "",
-        // tel: "",
+        url: "",
     }
 
     const [formData, setFormData] = useState<UserProfile>(profile);
@@ -112,19 +102,6 @@ export const EditProfile = () => {
                             onChange={handleInputChange}
                         />
                     </div>
-                    {/* <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Email</span>
-                        </label>
-                        <input
-                            type="email"
-                            className="input input-bordered"
-                            name="email"
-                            placeholder='bob@email.com'
-                            value={formData.email}
-                            onChange={handleInputChange}
-                        />
-                    </div>
                     <div className="form-control">
                         <label className="label">
                             <span className="label-text">URL Link</span>
@@ -137,21 +114,7 @@ export const EditProfile = () => {
                             value={formData.url}
                             onChange={handleInputChange}
                         />
-                    </div> */}
-                    {/* // <div className="form-control">
-                    //     <label className="label">
-                    //         <span className="label-text">Tel</span>
-                    //     </label>
-                    //     <input
-                    //         type="tel"
-                    //         className="input input-bordered"
-                    //         name="tel"
-                    //         placeholder='+1 (123) 456-7890'
-                    //         value={formData.tel}
-                    //         onChange={handleInputChange}
-                    //         pattern="^\+?(\d[\d-. ]+)?(\([\d-. ]+\))?[\d-. ]+\d$"
-                    //     />
-                    // </div> */}
+                    </div>
                     <div className="form-control">
                         <label className="label">
                             <span className="label-text">Bio</span>
@@ -171,7 +134,7 @@ export const EditProfile = () => {
             ) : (
                 // ... プレビュー表示 ...
                 <>
-                <div className="card card-bordered p-4 shadow-xl border-neutral">
+                <div className="card card-bordered p-4 shadow-lg border-primary border-2">
                     <h1 className='text-accent text-2xl'>Profile</h1>
                     <div className='like favorite m-1'>
                         <label tabIndex={0} className="btn btn-ghost rounded-btn swap swap-rotate btn-sm text-2xl">
@@ -210,16 +173,12 @@ export const EditProfile = () => {
                     <p>{userInfo.token}</p>
                     <br/>
                     <p>{formData.nickname}</p>
-                    {/* <a href={formData.url} className="block underline">{formatUrlForDisplay(formData.url)}</a> */}
-                    {/* <p>{formData.email}</p> */}
-                    {/* <p>{formData.tel}</p> */}
-                    {/* <p className='truncate'>{formData.did}</p> */}
-                    {/* <p>{formData.bio}</p> */}
+                    <a href={formData.url} className="block underline">{formatUrlForDisplay(formData.url)}</a>
+                    <p>{formData.bio}</p>
                     <button className="btn btn-secondary mt-4 mx-auto block normal-case" onClick={() => setIsEditing(true)}>
                         Edit Profile
                     </button>
-                    {/* <DID /> */}
-                    {/* <NFT /> */}
+                     {/* <NFT /> */}
                 </div>
                 </>
             )}

@@ -199,12 +199,13 @@ export const Button = () => {
             <div className="stat-figure">
               {qr && <Imagine src={qr} alt="QR" height={150} width={150} className="mx-auto m-4" />}
             </div>
-            <div className="stat-title">Send for HooksAccount</div>
+            <div className="stat-title">Send to HooksAccount</div>
             <div className="stat-actions">
               {/* {trust && */}
               <JAN userHand={userHand} onUserHandChange={handleUserHandChange} />
               {/* } */}
               <Imagine
+                // src={"/ipfs/pay-with-xumm.png"}
                 src={"https://ipfs.io/ipfs/QmXoTW4UaV2LC972UcFWLt9QsrPAe6A6qauxAqXPsVmt5A/pay-with-xumm.png"}
                 width={300}
                 height={100}

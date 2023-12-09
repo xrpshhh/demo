@@ -1,3 +1,4 @@
+import React from 'react';
 
 interface JANProps {
     userHand?: string;
@@ -5,54 +6,60 @@ interface JANProps {
 }
 
 export const JAN = ({ userHand, onUserHandChange }: JANProps) => {
-    const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+
+    const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const newHand = event.target.value;
         onUserHandChange(newHand);
     };
 
+    const handleCheckboxChange = (hand: string) => {
+        onUserHandChange(hand);
+    };
+
     return (
-        <div className="mb-2 pb-4 border border-accent rounded-box">
-            <h2 className="text-xl font-bold mb-3">Rock Paper Scissors</h2>
-
-            <label className="hover:primary text-6xl py-2 px-2 rounded">
-                <input
-                    type="checkbox"
-                    value="rock"
-                    // value="0"
-                    onChange={handleOptionChange}
-                    checked={userHand === 'rock'}
-                    className="checkbox absolute opacity-0 w-0 h-0"
-                />
-                <span className={`hover:bg-primary ${userHand === 'rock' ? 'bg-primary' : ''}`}>
-                    ✊
-                </span>
-            </label>
-            <label className="hover:bg-success text-6xl py-2 px-2 rounded">
-                <input
-                    type="checkbox"
-                    value="paper"
-                    // value="1"
-                    onChange={handleOptionChange}
-                    checked={userHand === 'paper'}
-                    className="checkbox absolute opacity-0 w-0 h-0"
-                />
-
-                <span className={`hover:bg-success ${userHand === 'paper' ? 'bg-success' : ''}`}>
-                    🖐️
-                </span>
-            </label>
-            <label className="hover:bg-warning text-6xl py-2 px-2 rounded">
-                <input
-                    type="checkbox"
-                    value="scissors"
-                    // value="2"
-                    onChange={handleOptionChange}
-                    checked={userHand === 'scissors'}
-                    className="checkbox absolute opacity-0 w-0 h-0"
-                />
-                <span className={`hover:bg-warning ${userHand === 'scissors' ? 'bg-warning' : ''}`}>
-                    ✌️
-                </span>
+        <div className="mb-2 pb-2 border border-accent rounded-box">
+            <label className="form-control w-full max-w-xs">
+                <div className="label">
+                    <span className="label-text text-xl">Rock Pepar Scissors</span>
+                </div>
+                <select className="select select-bordered" value={userHand} onChange={handleSelectChange}>
+                    <option value="None">None</option>
+                    <option value="Rock">Rock</option>
+                    <option value="Paper">Paper</option>
+                    <option value="Scissors">Scissors</option>
+                </select>
+                <div className="label">
+                    <span className={`label-text text-7xl ${userHand === 'Rock' ? 'bg-primary' : ''}`}>
+                        <input
+                            type="checkbox"
+                            value="Rock"
+                            onChange={() => handleCheckboxChange('Rock')}
+                            checked={userHand === 'Rock'}
+                            className="checkbox absolute opacity-0 w-20 h-20"
+                        />
+                        ✊
+                    </span>
+                    <span className={`label-text text-7xl ${userHand === 'Paper' ? 'bg-success' : ''}`}>
+                        <input
+                            type="checkbox"
+                            value="Paper"
+                            onChange={() => handleCheckboxChange('Paper')}
+                            checked={userHand === 'Paper'}
+                            className="checkbox absolute opacity-0 w-20 h-20"
+                        />
+                        🖐️
+                    </span>
+                    <span className={`label-text text-7xl ${userHand === 'Scissors' ? 'bg-warning' : ''}`}>
+                        <input
+                            type="checkbox"
+                            value="Scissors"
+                            onChange={() => handleCheckboxChange('Scissors')}
+                            checked={userHand === 'Scissors'}
+                            className="checkbox absolute opacity-0 w-20 h-20"
+                        />
+                        ✌️
+                    </span>
+                </div>
             </label>
         </div>
     );

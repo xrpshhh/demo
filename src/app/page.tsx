@@ -136,17 +136,17 @@ export default function App() {
             </div>
 
             <div className="stat">
-              <div className="stat-title">commission fixed</div>
+              <div className="stat-title">Commission fixed</div>
               <div className="stat-value font-mono">0.02XAH</div>
             </div>
 
             <div className="stat">
-              <div className="stat-title">minimum reserve</div>
+              <div className="stat-title">Minimum reserve</div>
               <div className="stat-value font-mono">0.2XAH</div>
             </div>
 
             <div className="stat">
-              <div className="stat-title">amount deposit miminum</div>
+              <div className="stat-title">Miminum deposit</div>
               <div className="stat-value font-mono">2XAH</div>
             </div>
 
