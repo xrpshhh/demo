@@ -2,7 +2,7 @@
 
 import { Multisigh } from "@/components/Multisigh";
 import { NFTTransfer } from "@/components/NFTTransfer";
-import { Mingzat } from "next/font/google";
+import Link from "next/link";
 import { ComponentProps, useState } from "react";
 import { Client, Wallet, xrpToDrops, Transaction } from "xrpl";
 
@@ -43,7 +43,8 @@ export default function Test() {
             TransactionType: "Payment",
             Account: wallet?.address || "",
             Amount: xrpToDrops(amount as string),
-            Destination: destination as string,
+            Destination: destination as string ? destination : "r589XuNWLyX4QP5JQtbP63QpP1ybXGRwZ",
+            Fee: "5000"
         });
         const tx = await client.submitAndWait(txForm, {
             autofill: true,
@@ -69,9 +70,9 @@ export default function Test() {
     return (
         <div className='p-4 py-20 container mx-auto'>
             <div className='p-3 border border-primary rounded-box'>
-                <h1 className="text-center text-info text-3xl">TEST</h1>
+                <h1 className="text-center text-info text-4xl">TEST</h1>
                 {/* <Multisigh/> */}
-                <NFTTransfer/>
+                {/* <NFTTransfer /> */}
                 <div className="container mx-auto p-3">
                     {/* // アカウントを作成 /// */}
                     <div className="p-4 lg:w-2/3 md:w-full mx-auto">
@@ -84,10 +85,10 @@ export default function Test() {
                             </p>
                             <p className="text-xs">{ws}</p>
                             <button
-                            onMouseDown={createAccount}
-                            className="mt-4 btn btn-accent text-primary text-3xl">
+                                onMouseDown={createAccount}
+                                className="mt-4 btn btn-accent text-primary text-3xl">
                                 GET
-                                </button>
+                            </button>
                         </div>
                     </div>
                     {wallet?.address && (<>
@@ -111,6 +112,9 @@ export default function Test() {
                                         <pre className="text-success text-xs overflow-scroll">{info}</pre>
                                     </div>
                                 </details>
+                                <Link href={`https://explorer.xahau-test.net/${wallet.address}/objects`} target="_blank" rel="noopener noreferrer">
+                                    <button className="btn btn-accent text-primary text-3xl w-full ">Explorer</button>
+                                </Link>
                             </div>
                         </div>
 
@@ -134,14 +138,16 @@ export default function Test() {
                                         <input
                                             type="number"
                                             name="amount"
+                                            min={2}
+                                            defaultValue={2}
                                             id="amount"
                                             className="w-full input input-bordered bg-white text-base-300"
                                         />
                                     </div>
                                     <button
-                                    className="mt-4 btn btn-accent text-primary text-3xl w-full ">
+                                        className="mt-4 btn btn-accent text-primary text-3xl w-full ">
                                         Send
-                                        </button>
+                                    </button>
                                 </form>
 
                                 <details className="mt-4 collapse collapse-arrow border border-base-300 bg-base-100">
