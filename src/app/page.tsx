@@ -24,7 +24,7 @@ export default function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const client = new Client(ws as string);
+      const client = new Client(ws);
       await client.connect();
       const fee: any = await client.request({
         command: "fee",
@@ -52,7 +52,7 @@ export default function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const client = new Client(ws as string);
+      const client = new Client(ws);
       await client.connect();
       const balance: any = await client.getXrpBalance(userInfo.account as string);
       setBalance(balance);
@@ -65,7 +65,7 @@ export default function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const client = new Client(ws as string);
+      const client = new Client(ws);
       await client.connect();
       const total: any = await client.getXrpBalance(shhh);
       setTotal(total);

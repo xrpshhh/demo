@@ -15,8 +15,7 @@ export default function Test() {
     const [check, setCheck] = useState<any | undefined>(undefined);
 
     const ws = "wss://xahau-test.net"
-
-    const client = new Client(ws as string);
+    const client = new Client(ws);
     const shhh = "rQqqqqJyn6sKBzByJynmEK3psndQeoWdP"
 
     const createAccount = async () => {
@@ -73,7 +72,6 @@ export default function Test() {
     }
 
     const checklist = async () => {
-        const client = new Client(ws as string)
         await client.connect()
         const info: any = await client.request({
             command: "account_objects",
@@ -136,105 +134,101 @@ export default function Test() {
                 <h1 className="mt-2 text-center text-info text-4xl">TEST</h1>
                 {/* <Multisigh/> */}
                 {/* <NFTTransfer /> */}
-                <div className="container mx-auto">
-                    {/* // アカウントを作成 /// */}
+                <div className="p-4 lg:w-4/5 md:w-full mx-auto">
+                    <div className="card-bordered border-primary card p-4">
+                        <h2 className="card-title text-xl sm:text-2xl">
+                            Create Wallet
+                        </h2>
+                        <p className="mt-4">
+                            Create a key pair for your account and get a test net balance.
+                        </p>
+                        <p className="text-primary">{ws}</p>
+                        <button
+                            onMouseDown={createAccount}
+                            className="mt-4 btn btn-accent text-primary text-3xl">
+                            GET
+                        </button>
+                    </div>
+                </div>
+                {wallet?.address && (<>
                     <div className="p-4 lg:w-4/5 md:w-full mx-auto">
                         <div className="card-bordered border-primary card p-4">
-                            <h2 className="card-title text-xl sm:text-2xl">
-                                Create Wallet
+                            <h2 className="card-title mb-4 text-xl sm:text-2xl">
+                                Account Info
                             </h2>
-                            <p className="mt-4">
-                                Create a key pair for your account and get a test net balance.
-                            </p>
-                            <p className="text-xs">{ws}</p>
-                            <button
-                                onMouseDown={createAccount}
-                                className="mt-4 btn btn-accent text-primary text-3xl">
-                                GET
-                            </button>
+                            <dl>
+                                <dt className="m-1 font-medium">address:</dt><dd className="truncate text-accent"> {wallet?.address}</dd>
+                                <dt className="m-1 font-medium">seed:</dt><dd className="truncate text-accent"> {wallet?.seed}</dd>
+                                <dt className="m-1 font-medium">publicKey:</dt><dd className="truncate text-accent"> {wallet?.publicKey}</dd>
+                                <dt className="m-1 font-medium">privateKey:</dt><dd className="truncate text-accent"> {wallet?.privateKey}</dd>
+                                <dt className="m-1 font-medium">balance:</dt><dd className="text-accent"> {balance}</dd>
+                            </dl>
+                            <details className="mt-4 collapse collapse-arrow border border-base-300 bg-base-100">
+                                <summary className="collapse-title text-xl text-secondary font-medium">
+                                    Info
+                                </summary>
+                                <div className="collapse-content">
+                                    <pre className="text-success text-xs overflow-scroll">{info}</pre>
+                                </div>
+                            </details>
+                            <Link href={`https://explorer.xahau-test.net/${wallet.address}/objects`} target="_blank" rel="noopener noreferrer">
+                                <button className="my-2 btn btn-accent text-primary text-3xl w-full ">Explorer</button>
+                            </Link>
                         </div>
                     </div>
-                    {wallet?.address && (<>
-                        <div className="p-4 lg:w-4/5 md:w-full mx-auto">
-                            <div className="card-bordered border-primary card p-4">
-                                <h2 className="card-title mb-4 text-xl sm:text-2xl">
-                                    Account Info
-                                </h2>
-                                <dl>
-                                    <dt className="m-1 font-medium">address:</dt><dd className="truncate text-accent"> {wallet?.address}</dd>
-                                    <dt className="m-1 font-medium">seed:</dt><dd className="truncate text-accent"> {wallet?.seed}</dd>
-                                    <dt className="m-1 font-medium">publicKey:</dt><dd className="truncate text-accent"> {wallet?.publicKey}</dd>
-                                    <dt className="m-1 font-medium">privateKey:</dt><dd className="truncate text-accent"> {wallet?.privateKey}</dd>
-                                    <dt className="m-1 font-medium">balance:</dt><dd className="text-accent"> {balance}</dd>
-                                </dl>
-                                <details className="mt-4 collapse collapse-arrow border border-base-300 bg-base-100">
-                                    <summary className="collapse-title text-xl text-secondary font-medium">
-                                        Info
-                                    </summary>
-                                    <div className="collapse-content">
-                                        <pre className="text-success text-xs overflow-scroll">{info}</pre>
-                                    </div>
-                                </details>
-                                <Link href={`https://explorer.xahau-test.net/${wallet.address}/objects`} target="_blank" rel="noopener noreferrer">
-                                    <button className="my-2 btn btn-accent text-primary text-3xl w-full ">Explorer</button>
-                                </Link>
-                            </div>
-                        </div>
 
-                        <div className="p-4 lg:w-4/5 md:w-full mx-auto">
-                            <div className="card-bordered border-primary card p-4">
-                                <h2 className="card-title mb-4 text-xl sm:text-2xl">
-                                    Send XRP
-                                </h2>
-                                <form onSubmit={transfer}>
-                                    <div>
-                                        <label htmlFor="destination">Destination Addres</label>
-                                        <input
-                                            type="text"
-                                            name="destination"
-                                            id="destination"
-                                            className="w-full input input-bordered"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="amount">XRP Amount</label>
-                                        <input
-                                            type="text"
-                                            name="amount"
-                                            defaultValue={2}
-                                            id="amount"
-                                            className="w-full input input-bordered"
-                                        />
-                                    </div>
-                                    <button
-                                        className="mt-4 btn btn-accent text-primary text-3xl w-full">
-                                        Send
-                                    </button>
-                                </form>
-                                {check && (<>
-                                    {JSON.stringify(check?.SendMax)}
-                                    {JSON.stringify(check?.index)}
-                                    <button
-                                        onMouseDown={CheckCash}
-                                        className="mt-4 btn btn-accent text-primary text-3xl w-full">
-                                        CheckCash
-                                    </button>
-                                </>)}
-                                <details className="mt-4 collapse collapse-arrow border border-base-300 bg-base-100">
-                                    <summary className="collapse-title text-xl text-secondary font-medium">
-                                        {stats}
-                                    </summary>
-                                    <div className="collapse-content">
-                                        <pre className="text-success text-xs overflow-scroll">{raw}</pre>
-                                    </div>
-                                </details>
-                                <Link href={`https://explorer.xahau-test.net/${shhh}/tx`} target="_blank" rel="noopener noreferrer">
-                                    <button className="my-2 btn btn-accent text-primary text-3xl w-full ">HooksTx</button>
-                                </Link>
-                            </div>
+                    <div className="p-4 lg:w-4/5 md:w-full mx-auto">
+                        <div className="card-bordered border-primary card p-4">
+                            <h2 className="card-title mb-4 text-xl sm:text-2xl">
+                                Send XRP
+                            </h2>
+                            <form onSubmit={transfer}>
+                                <div>
+                                    <label htmlFor="destination">Destination Addres</label>
+                                    <input
+                                        type="text"
+                                        name="destination"
+                                        id="destination"
+                                        className="w-full input input-bordered"
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="amount">XRP Amount</label>
+                                    <input
+                                        type="text"
+                                        name="amount"
+                                        defaultValue={2}
+                                        id="amount"
+                                        className="w-full input input-bordered"
+                                    />
+                                </div>
+                                <button
+                                    className="mt-4 btn btn-accent text-primary text-3xl w-full">
+                                    Send
+                                </button>
+                            </form>
+                            {check && (<>
+                                {JSON.stringify(check?.SendMax)}
+                                <button
+                                    onMouseDown={CheckCash}
+                                    className="mt-4 btn btn-accent text-primary text-3xl w-full">
+                                    CheckCash
+                                </button>
+                            </>)}
+                            <details className="mt-4 collapse collapse-arrow border border-base-300 bg-base-100">
+                                <summary className="collapse-title text-xl text-secondary font-medium">
+                                    {stats}
+                                </summary>
+                                <div className="collapse-content">
+                                    <pre className="text-success text-xs overflow-scroll">{raw}</pre>
+                                </div>
+                            </details>
+                            <Link href={`https://explorer.xahau-test.net/${shhh}/tx`} target="_blank" rel="noopener noreferrer">
+                                <button className="my-2 btn btn-accent text-primary text-3xl w-full ">HooksTx</button>
+                            </Link>
                         </div>
-                    </>)}
-                </div>
+                    </div>
+                </>)}
             </div>
         </div>
     );
