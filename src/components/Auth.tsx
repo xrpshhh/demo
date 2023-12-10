@@ -19,7 +19,6 @@ export const Auth = () => {
             await xumm.authorize();
             if (xumm.user) {
                 setAccount(await xumm.user.account)
-                // router.replace(`/${account}`);
                 router.replace(`/${""}`);
             }
         } catch (error) {
@@ -42,7 +41,7 @@ export const Auth = () => {
             {account ? (
                 <div className="dropdown dropdown-end dropdown-hover">
                     <label tabIndex={0} className="btn btn-ghost btn-circle mx-2">
-                        <Imagine priority={false} src={userInfo.picture ?? "/ipfs/avatar.png"} alt="Avatar" width={48} height={48} className="avatar" />
+                        <Imagine priority={false} src={userInfo.picture ?? "/public/avatar.png"} alt="Avatar" width={48} height={48} className="avatar" />
                     </label>
                     <ul tabIndex={0} className="p-2 z-[10] shadow menu menu-md dropdown-content bg-base-100 rounded-box w-auto bg-opacity-90">
                         <li>
@@ -87,11 +86,12 @@ export const Auth = () => {
                     <div className="dropdown dropdown-end dropdown-hover">
                         <label tabIndex={0} className="btn btn-ghost">
                             <Imagine
-                                src={"/ipfs/xumm-icon.png"}
+                                src={"/public/xumm-icon.png"}
                                 width={100}
                                 height={58}
                                 alt="sign"
                                 onClick={connect}
+                                priority={false}
                             />
                         </label>
                         <ul tabIndex={0} className="p-2 z-[10] shadow menu menu-md dropdown-content bg-base-100 rounded-box w-auto bg-opacity-90">

@@ -8,7 +8,6 @@ const xumm = new Xumm(process.env.XUMMAPI || "", process.env.XUMMSECRET || "");
 type UserInfoType = {
   account?: string;
   name?: string;
-  // email?: string;
   domain?: string;
   picture?: string;
   networkEndpoint?: string;
@@ -34,7 +33,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       const user = {
         account: await profile.account,
         name: await profile.name,
-        // email: await profile.email,
         domain: await profile.domain,
         picture: await profile.picture,
         networkEndpoint: await profile.networkEndpoint,

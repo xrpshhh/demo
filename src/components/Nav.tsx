@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link"
 import { Imagine } from "./Imagine"
 import { Auth } from "./Auth"
 import { Theme } from './Theme'
@@ -15,7 +14,7 @@ export const Nav = () => {
 
                     <div className="navbar-start">
                         <a onMouseDown={() => router.replace("/")}>
-                            <Imagine src={"/ipfs/logo.png"} width={48} height={48} alt="logo" />
+                            <Imagine src={"/public/logo.png"} width={48} height={48} alt="logo" />
                             </a>
                         <h1 className="text-accent font-bold text-xl">
                             XRP🤫Shhh

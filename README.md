@@ -3,7 +3,7 @@
 
 ダウンロードしてディレクトリに移動
 
-```bash
+```sh
 
 gh repo clone xrpshhh/demo-repository
 cd demo-repository
@@ -12,7 +12,7 @@ cd demo-repository
 
 パッケージのインストール
 
-```bash
+```sh
 
 npm i
 
@@ -32,55 +32,6 @@ pnpm add
 
 XUMMAPI={Your API Key}
 XUMMSECRET={Your Secret}
-
-```
-TESTNET用のアドレスを使う場合　
-
-https://xrpl.org/xrp-testnet-faucet.html
-
-Your Testnet Credentials
-
-- Address:
-rapQqDRvY7WxGZLk1KnRRXVycFZD4VW2yw
-
-- Secret:
-sEdThei83qwiNKtcmM2gquBoz7XZ1Gp
-
-- Balance:
-10,000 XRP
-
-- Sequence Number:
-43321922
-
-
-TESTNET用の独自機能のHookを使う場合　
-
-https://hooks-testnet-v3.xrpl-labs.com
-
-wss://xahau-test.net
-
-- Address:
-rg67Ctpqsk3eUDofubfcJJT47QmxfPYaS
-
-- Secret:
-ssgkdYTvgcH9jJtZuLUn8JzNBkdeE
-
-- TX :
-295D6C8CB1BEBF765B2C57843C1ACC4F35D34274CAB15CB7BF8640DB32B4DE8D
-
-- Balance:
-10,000 XRP
-
-- Result:
-tesSUCCESS
-
-- DebugLog:
-wss://xahau-test.net/debugstream/rg67Ctpqsk3eUDofubfcJJT47QmxfPYaS/
-
-Xummからの場合
-
-https://docs.xahau.network/infrastructure/peering/peering-your-own-node
-
 
 ```
 

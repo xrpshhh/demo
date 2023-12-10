@@ -85,7 +85,7 @@ export const EditProfile = () => {
         }
     };
     return (
-        <div className="p-4 py-20 mx-auto container text-center">
+        <div className="pt-20 mx-auto container text-center">
             {/* プロフィール編集画面 */}
             {isEditing ? (
                 <form onSubmit={handleSubmit} className="px-8">
@@ -134,7 +134,7 @@ export const EditProfile = () => {
             ) : (
                 // ... プレビュー表示 ...
                 <>
-                <div className="card card-bordered p-4 shadow-lg border-primary border-2">
+                <div className="m-1 card card-bordered p-4 shadow-lg border-primary border-2">
                     <h1 className='text-accent text-2xl'>Profile</h1>
                     <div className='like favorite m-1'>
                         <label tabIndex={0} className="btn btn-ghost rounded-btn swap swap-rotate btn-sm text-2xl">
@@ -149,7 +149,7 @@ export const EditProfile = () => {
                         </label>
                     </div>
 
-                    <Imagine priority={false} src={originalAvatar || `/ipfs/avatar.png`} alt="avatar" width={150} height={150} className="m-4 mx-auto avatar rounded-full ring ring-primary"
+                    <Imagine priority={false} src={originalAvatar || `/avatar.png`} alt="avatar" width={150} height={150} className="m-4 mx-auto avatar rounded-full ring ring-primary"
                         onClick={() => { (window as any).my_modal_2.showModal(); updateCanvas(); }} />
 
                     <div className="flex items-center justify-center">
@@ -189,7 +189,7 @@ export const EditProfile = () => {
                     <h2 className="font-bold text-lg">Edit Avatar</h2>
                     <AvatarEditor
                         ref={editorRef}
-                        image={originalAvatar || `/ipfs/avatar.png`}
+                        image={originalAvatar || `/avatar.png`}
                         key={originalAvatar}
                         width={250}
                         height={250}

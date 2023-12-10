@@ -9,22 +9,23 @@ import { JAN } from "./JAN";
 export const Button = () => {
   const { userInfo, xumm } = useUser();
   const [qr, setQr] = useState<string | undefined>(undefined);
-  const [tx, setTx] = useState<string | undefined>(undefined);
+  const [tx, setTx] = useState<any | undefined>(undefined);
   const [check, setCheck] = useState<any | undefined>(undefined);
   const [trust, setTrust] = useState<string | undefined>(undefined);
   const [userHand, setUserHand] = useState<string | undefined>(undefined);
-  const ws = process.env.WS_URI
+  const ws = "wss://xahau-test.net"
+  const shhh = "rQqqqqJyn6sKBzByJynmEK3psndQeoWdP"
 
   const handlePayloadStatus = async (payload?: any) => {
     const checkPayloadStatus = setInterval(async () => {
       const status: any = await xumm.payload?.get(payload?.uuid as string);
       if (status?.meta.resolved && !status?.meta.cancelled) {
         clearInterval(checkPayloadStatus);
-        setTx(JSON.stringify(status, null, 2));
+        setTx(status);
         setQr(undefined);
       } else if (status?.meta.resolved && !tx && !status?.meta.cancelled) {
         clearInterval(checkPayloadStatus);
-        setTx(JSON.stringify(status, null, 2));
+        setTx(status);
         setQr(undefined);
       }
     }, 20000);
@@ -45,8 +46,8 @@ export const Button = () => {
 
     const payload = await xumm.payload?.create({
       TransactionType: 'Payment',
-      Destination: 'r589XuNWLyX4QP5JQtbP63QpP1ybXGRwZ',
-      Fee: 589,
+      Destination: shhh,
+      Fee: 5890,
       Memos: [
         {
           Memo: {
@@ -63,7 +64,6 @@ export const Button = () => {
           }
         },
       ],
-      // HooksPrameters: [{userInfo.account: jank}]
     });
     setQr(payload?.refs.qr_png);
     await xumm.xapp?.openSignRequest(payload);
@@ -78,7 +78,7 @@ export const Button = () => {
         TransactionType: 'CheckCash',
         Amount: check.SendMax,
         CheckID: check.index,
-        Fee: 589,
+        Fee: 5890,
       });
       setQr(payload?.refs.qr_png);
       await xumm.xapp?.openSignRequest(payload);
@@ -95,10 +95,10 @@ export const Button = () => {
       Flags: '262144',
       LimitAmount: {
         currency: 'JAN',
-        issuer: 'r589XuNWLyX4QP5JQtbP63QpP1ybXGRwZ',
+        issuer: shhh,
         value: '10000'
       },
-      Fee: 589,
+      Fee: 5890,
     });
     setQr(payload?.refs.qr_png);
     await xumm.xapp?.openSignRequest(payload);
@@ -118,8 +118,29 @@ export const Button = () => {
       SendMax: {
         currency: "JAN",
         value: max as string,
-        issuer: "r589XuNWLyX4QP5JQtbP63QpP1ybXGRwZ"
+        issuer: shhh
       },
+    });
+    setQr(payload?.refs.qr_png);
+    await xumm.xapp?.openSignRequest(payload);
+    push(payload)
+    handlePayloadStatus(payload);
+  };
+  const donate = async () => {
+    setTx(undefined);
+    const payload = await xumm.payload?.create({
+      TransactionType: 'Payment',
+      Destination: "rw2ciyaNshpHe7bCHo4bRWq6pqqynnWKQg",
+      Fee: 5890,
+      Memos: [
+        {
+          Memo: {
+            MemoData: convertStringToHex("Internet Archive"),
+            MemoFormat: "746578742F706C61696E",
+            MemoType: convertStringToHex("donate")
+          }
+        },
+      ],
     });
     setQr(payload?.refs.qr_png);
     await xumm.xapp?.openSignRequest(payload);
@@ -141,7 +162,7 @@ export const Button = () => {
       let found = false;
       if (info.result.account_objects && info.result.account_objects.length > 0) {
         info.result.account_objects.forEach((checklist: any) => {
-          if (checklist.Account === "r589XuNWLyX4QP5JQtbP63QpP1ybXGRwZ") {
+          if (checklist.Account === shhh) {
             setCheck(checklist);
             found = true;
           }
@@ -167,7 +188,7 @@ export const Button = () => {
       const info: any = await client.request({
         command: "account_lines",
         account: userInfo.account,
-        peer: "r589XuNWLyX4QP5JQtbP63QpP1ybXGRwZ"
+        peer: shhh
       });
       await client.disconnect()
       const list = info.result.lines[0]
@@ -185,7 +206,6 @@ export const Button = () => {
     }
   }, [userInfo.account]);
 
-
   const handleUserHandChange = (newHand: string) => {
     setUserHand(newHand);
   };
@@ -195,69 +215,90 @@ export const Button = () => {
       {userInfo.account && (
         <div className="stats stats-vertical lg:stats-horizontal">
 
-          <div className="stat">
-            <div className="stat-figure">
-              {qr && <Imagine src={qr} alt="QR" height={150} width={150} className="mx-auto m-4" />}
-            </div>
-            <div className="stat-title">Send to HooksAccount</div>
-            <div className="stat-actions">
-              {/* {trust && */}
-              <JAN userHand={userHand} onUserHandChange={handleUserHandChange} />
-              {/* } */}
-              <Imagine
-                // src={"/ipfs/pay-with-xumm.png"}
-                src={"https://ipfs.io/ipfs/QmXoTW4UaV2LC972UcFWLt9QsrPAe6A6qauxAqXPsVmt5A/pay-with-xumm.png"}
-                width={300}
-                height={100}
-                alt="sign"
-                onClick={Payment}
-              />
-              <div className="stat-desc">
-                {tx && (
-                  <div className="max-w-xs card bordered border-primary card">
-                    <details className="collapse collapse-arrow border border-base-300 bg-base-100">
-                      <summary className="collapse-title text-xl text-secondary">
-                        Payload
-                      </summary>
-                      <div className="collapse-content">
-                        <pre className="text-left text-success text-xs overflow-scroll">
-                          {tx}
-                        </pre>
-                      </div>
-                    </details>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
           {check ? (
             <>
               <div className="stat">
-                <div className="stat-title">max withdraw</div>
-                <div className="stat-value font-mono">{(check.SendMax / 1000000)}</div>
-                <div className="stat-desc">XAH</div>
+                <div className="stat-title text-accent">Check Cash</div>
+                <div className="stat-value font-mono text-3xl">{(check.SendMax / 1000000)}</div>
+                <div className="stat-desc text-xl">XAH</div>
                 <div className="stat-actions">
                   <button
                     onMouseDown={CheckCash}
-                    className="my-2 mx-auto btn bg-[#3051FC] hover:bg-[#030B36] btn-lg text-2xl">
-                    {/* Withdraw */}
-                    CheckCash
+                    className="btn bg-[#3051FC] hover:bg-gray text-3xl text-white">
+                    Withdraw
                   </button>
+                </div>
+                <div className="stat-actions mx-auto">
+                  <Imagine
+                    src={"/donate-with-xumm.png"}
+                    width={220}
+                    height={100}
+                    alt="sign"
+                    onClick={donate}
+                  />
                 </div>
               </div>
             </>
           ) : (
             <div className="stat">
               <div className="stat-title">No deposite.</div>
-              <div className="stat-value">Please Payment to HooksAccount</div>
+              <div className="stat-value">...</div>
+              <div className="stat-actions mx-auto">
+                <Imagine
+                  src={"/donate-with-xumm.png"}
+                  width={220}
+                  height={100}
+                  alt="sign"
+                  onClick={donate}
+                />
+              </div>
             </div>
           )}
+
+          <div className="stat">
+            <div className="stat-figure">
+              {qr && <Imagine src={qr} alt="QR" height={150} width={150} className="mx-auto" />}
+            </div>
+            <div className="stat-title">Shhh...</div>
+            <div className="stat-value font-mono">{trust ? "Jan Ken Pon" : "deposit"}</div>
+            {/* {trust && */}
+            <div className="stat-actions">
+              <JAN userHand={userHand} onUserHandChange={handleUserHandChange} />
+            </div>
+            {/* } */}
+            <div className="stat-actions">
+              <Imagine
+                src={"/pay-with-xumm.png"}
+                width={350}
+                height={100}
+                alt="sign"
+                onClick={Payment}
+              />
+            </div>
+
+            {tx && (
+              <div className="stat-desc">
+                <div className="my-2 card bordered border-primary lg:w-96 w-64">
+                  <details className="collapse collapse-arrow border border-base-300 bg-base-100">
+                    <summary className="collapse-title text-secondary lg:text-xl">
+                      {JSON.stringify(tx.response.resolved_at)}
+                    </summary>
+                    <div className="collapse-content">
+                      <pre className="text-left text-success text-xs overflow-scroll">
+                        {JSON.stringify(tx, null, 2)}
+                      </pre>
+                    </div>
+                  </details>
+                </div>
+              </div>
+            )}
+
+          </div>
 
           {trust ? (
             <div className="stat">
               <div className="stat-title">Balance</div>
-              <div className="stat-value font-mono">¥{trust} JAN</div>
+              <div className="stat-value font-mono text-3xl">¥{trust} JAN</div>
               <div className="stat-desc">Swap JAN to XAH with DEX</div>
               <div className="stat-actions">
                 <form onSubmit={Swap} className="my-4 join join-vertical">
@@ -265,22 +306,22 @@ export const Button = () => {
                     type="number"
                     name="amount"
                     id="amount"
-                    min={0.2}
-                    defaultValue={0.2}
-                    placeholder="SendMax ¥JAN"
+                    placeholder="SendMax"
                     className="input input-bordered w-full join-item"
                   />
-                  <button className="btn bg-[#3051FC] hover:bg-[#030B36] join-item text-2xl">Swap</button>
+                  <button className="btn bg-[#3051FC] hover:bg-gray join-item text-3xl text-white font-bold">Swap</button>
                 </form>
               </div>
             </div>
           ) : (
             <div className="stat">
-              <div className="stat-title">No TrustLine</div>
+              <div className="stat-title">Game token</div>
+              <div className="stat-value font-mono text-accent">JAN</div>
+              <div className="stat-desc">Total value 10000 JAN</div>
               <div className="stat-actions">
                 <button
                   onMouseDown={TrustSet}
-                  className="my-2 btn bg-[#3051FC] hover:bg-[#030B36] btn-lg">
+                  className="text-3xl btn bg-[#3051FC] hover:bg-gray text-white">
                   TrustSet
                 </button>
               </div>

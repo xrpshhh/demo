@@ -17,19 +17,13 @@ export const JAN = ({ userHand, onUserHandChange }: JANProps) => {
     };
 
     return (
-        <div className="mb-2 pb-2 border border-accent rounded-box">
-            <label className="form-control w-full max-w-xs">
+        <div className="p-3 border-2 border-accent rounded-box w-max-xs">
+            <label className="form-control">
                 <div className="label">
-                    <span className="label-text text-xl">Rock Pepar Scissors</span>
+                    <span className="label-text text-xl mx-auto">Rock Pepar Scissors</span>
                 </div>
-                <select className="select select-bordered" value={userHand} onChange={handleSelectChange}>
-                    <option value="None">None</option>
-                    <option value="Rock">Rock</option>
-                    <option value="Paper">Paper</option>
-                    <option value="Scissors">Scissors</option>
-                </select>
                 <div className="label">
-                    <span className={`label-text text-7xl ${userHand === 'Rock' ? 'bg-primary' : ''}`}>
+                    <span className={`label-text text-7xl hover:bg-primary ${userHand === 'Rock' ? 'bg-primary animate-none' : 'animate-pulse'}`}>
                         <input
                             type="checkbox"
                             value="Rock"
@@ -39,7 +33,7 @@ export const JAN = ({ userHand, onUserHandChange }: JANProps) => {
                         />
                         ✊
                     </span>
-                    <span className={`label-text text-7xl ${userHand === 'Paper' ? 'bg-success' : ''}`}>
+                    <span className={`label-text text-7xl hover:bg-success ${userHand === 'Paper' ? 'bg-success animate-none' : 'animate-pulse'}`}>
                         <input
                             type="checkbox"
                             value="Paper"
@@ -49,7 +43,7 @@ export const JAN = ({ userHand, onUserHandChange }: JANProps) => {
                         />
                         🖐️
                     </span>
-                    <span className={`label-text text-7xl ${userHand === 'Scissors' ? 'bg-warning' : ''}`}>
+                    <span className={`label-text text-7xl hover:bg-warning ${userHand === 'Scissors' ? 'bg-warning animate-none' : 'animate-pulse'}`}>
                         <input
                             type="checkbox"
                             value="Scissors"
@@ -60,6 +54,12 @@ export const JAN = ({ userHand, onUserHandChange }: JANProps) => {
                         ✌️
                     </span>
                 </div>
+                <select className="select select-bordered" value={userHand} onChange={handleSelectChange}>
+                    <option value="None">None</option>
+                    <option value="Rock">Rock</option>
+                    <option value="Paper">Paper</option>
+                    <option value="Scissors">Scissors</option>
+                </select>
             </label>
         </div>
     );

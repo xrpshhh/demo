@@ -1,11 +1,11 @@
 /** @type {import('next').NextConfig} */
+
 const gateway = 'https://ipfs.io/ipfs/'
-const cid = 'Qmcirz6Xicp8ihEfKgmnrYkNqnaCDt4PYiSvpJGNu21GTp'
+const cid = 'QmW3xdsxWa1brei8MNnL2VwP3UXFgsrGwiJVnbsYPp7vMG'
 const ipfs = `${gateway}${cid}`
 
 module.exports = {
-  // output: 'standalone',
-  swcMinify: false,
+  output: 'standalone',
   images: {
     loader: 'custom',
     unoptimized: true,
@@ -13,13 +13,11 @@ module.exports = {
   env: {
     XUMMAPI: process.env.XUMMAPI,
     XUMMSECRET: process.env.XUMMSECRET,
-    WS_URI: process.env.WS_URI,
-    ORIGIN: process.env.ORIGIN,
   },
   async rewrites() {
     return [
       {
-        source: '/ipfs/:file*',
+        source: '/public/:file*',
         destination: `${ipfs}/:file*`,
       },
     ];

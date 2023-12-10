@@ -1,6 +1,5 @@
 import '@/styles/globals.css'
 import { Roboto_Mono } from "next/font/google"
-
 import { UserProvider } from '@/components/UserProvider'
 import { Meta } from './Meta'
 

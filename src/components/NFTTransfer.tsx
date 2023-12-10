@@ -15,8 +15,8 @@ export const NFTTransfer: React.FC = () => {
     const [account, setAccount] = useState<string | undefined>(userInfo?.account);
     const [file, setFile] = useState<File | undefined>(undefined);
     const [nftId, setNftId] = useState<string | undefined>(undefined);
-    const nftStorage = new NFTStorage({ token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEI1ZGQ2MUNEMjVmZDgxM0MyNEQ1YUNFNThjZDYwNzQ4OGFiQzE1N2UiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY4NjI5NjQxODU1MiwibmFtZSI6InRlc3QifQ.CEtfoZZhcLJiKF6GW3SYw4gI3bAJveVDp5U8odEcf4M'});
-    //const nftStorage = new NFTStorage({ token: process.env.NFT_STORAGE_API_TOKEN });
+    // const nftStorage = new NFTStorage({ token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEI1ZGQ2MUNEMjVmZDgxM0MyNEQ1YUNFNThjZDYwNzQ4OGFiQzE1N2UiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY4NjI5NjQxODU1MiwibmFtZSI6InRlc3QifQ.CEtfoZZhcLJiKF6GW3SYw4gI3bAJveVDp5U8odEcf4M'});
+    const nftStorage = new NFTStorage({ token: process.env.NFT_STORAGE_API_TOKEN || ""});
 
     useEffect(() => {
       if (userInfo && userInfo.account) {
